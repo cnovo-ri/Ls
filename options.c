@@ -67,7 +67,7 @@ char		**press_R(char **tab)
 	k = 0;
 	while (tab[i])
 	{
-		if (is_directory(tab[i]) == TRUE)
+		if (is_directory(tab[i]) == TRUE && tab[i][0] != '.')
 			tmp = stock_directory(tab[i]);
 		i++;
 	}

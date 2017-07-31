@@ -12,7 +12,7 @@
 
 NAME=ls
 
-SRC=directory.c check_opts.c options.c
+SRC=directory.c check_opts.c options.c tools.c
 
 LIB=./libft/libft.a
 

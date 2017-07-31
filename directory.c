@@ -1,12 +1,6 @@
 
 #include "ls.h"
 
-void		set_perror(char *filename)
-{
-	ft_putstr_fd("ls: ", 2);
-	perror(filename);
-}
-
 char		**create_and_fill(DIR *directory)
 {
 	int				i;
@@ -68,6 +62,7 @@ int			main(int argc, char **argv)
 		return (0);
 	}
 	tab = stock_directory(".");
+	tab = real_sort(tab);
 	if (opts->recursive == TRUE)
 		tab = press_R(tab);
 	if (opts->a == FALSE)
@@ -76,6 +71,8 @@ int			main(int argc, char **argv)
 		tab = do_reverse(tab);
 	while (tab[i])
 	{
+		if (is_directory(tab[i]))
+			ft_putendl("1");
 		ft_putendl(tab[i]);
 		i++;
 	}
