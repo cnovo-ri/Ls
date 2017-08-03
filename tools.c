@@ -102,47 +102,56 @@ char			**stock_lower(char **tab)
 	return (tmp);
 }
 
-char			**stock_tabs(t_sort *sort)
+char			**stock_tabs(t_sort *sort, char **dot, char **upper, char **lower)
 {
-	while (sort->dot[sort->i])
+	char	**tmp;
+	int		total;
+
+	total = 0;
+	ft_putendl("before malloc");
+	if (!(tmp = (char **)malloc(sizeof(char *) * total + 1)))
+		return (NULL);
+	ft_putendl("after malloc");
+	while (dot[sort->i])
 	{
-		sort->tmp[sort->total] = sort->dot[sort->i];
+		tmp[total] = dot[sort->i];
 		sort->i++;
-		sort->total++;
+		total++;
 	}
-	while (sort->upper[sort->j])
+	while (upper[sort->j])
 	{
-		sort->tmp[sort->total] = sort->upper[sort->j];
+		tmp[total] = upper[sort->j];
 		sort->j++;
-		sort->total++;
+		total++;
 	}
-	while (sort->lower[sort->k])
+	while (lower[sort->k])
 	{
-		sort->tmp[sort->total] = sort->lower[sort->k];
+		tmp[total] = lower[sort->k];
 		sort->k++;
-		sort->total++;
+		total++;
 	}
-	sort->tmp[sort->total] = NULL;
-	return (sort->tmp);
+	tmp[total] = NULL;
+	return (tmp);
 }
 
 char			**real_sort(char **tab)
 {
-	t_sort *sort;
-	
-	sort = NULL;
-	ft_putendl("Is dot");
-	sort->dot = stock_dot(tab);
-	ft_putendl("Not dot");
-	sort->upper = stock_upper(tab);
-	ft_putendl("Not upper");
-	sort->lower = stock_lower(tab);
-	ft_putendl("Not lower");
-	sort->i = 0;
-	sort->j = 0;
-	sort->k = 0;
-	sort->total = 0;
-	if (!(sort->tmp = (char **)malloc(sizeof(char *) * sort->total + 1)))
-		return (NULL);
-	return (stock_tabs(sort));
+	char		**dot;
+	char		**upper;
+	char		**lower;
+	t_sort		sort;
+
+	sort.i = 0;
+	sort.j = 0;
+	sort.k = 0;
+//	sort.total = 0;
+//	sort = NULL;
+//	ft_putendl("Is dot");
+	dot = stock_dot(tab);
+//	ft_putendl("Not dot");
+	upper = stock_upper(tab);
+//	ft_putendl("Not upper");
+	lower = stock_lower(tab);
+//	ft_putendl("Not lower");
+	return (stock_tabs(&sort, dot, upper, lower));
 }

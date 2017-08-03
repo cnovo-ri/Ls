@@ -20,18 +20,18 @@ typedef	struct		s_opts
 
 typedef struct		s_sort
 {
-	char	**dot;
-	char	**upper;
-	char	**lower;
-	char	**tmp;
+//	char	**dot;
+//	char	**upper;
+//	char	**lower;
+//	char	**tmp;
 	int		i;
 	int		j;
 	int		k;
-	int		total;
+//	int		total;
 }					t_sort;
 
 char				**real_sort(char **tab);
-char				**stock_tabs(t_sort *sort);
+char				**stock_tabs(t_sort *sort, char **dot, char **upper, char **lower);
 char				**stock_lower(char **tab);
 char				**stock_upper(char **tab);
 char				**stock_dot(char **tab);
