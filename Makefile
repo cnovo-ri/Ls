@@ -12,13 +12,15 @@
 
 NAME=ls
 
-SRC=directory.c check_opts.c options.c tools.c
+SRC=directory.c check_opts.c options.c tools.c refactoring.c
 
 LIB=./libft/libft.a
 
 OBJ=$(SRC:.c=.o)
 
-FLAGS=-Wall -Wextra -Werror
+FLAGS= -g -Wall -Wextra -Werror
+
+#debug flags : -g -fsanitize=address
 
 CC=cc
 

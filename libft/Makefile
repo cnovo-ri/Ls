@@ -150,7 +150,7 @@ OBJ=ft_memset.o \
 	ft_sqrt.o \
 	get_next_line.o
 
-FLAGS=-Wall -Wextra -Werror
+FLAGS=-g -Wall -Wextra -Werror
 
 CC=clang
 

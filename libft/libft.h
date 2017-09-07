@@ -38,9 +38,9 @@
 
 typedef struct		s_struct
 {
-	char			*s[5000];;
+	char			*s[5000];
 	int				r;
-	char			buf[BUFF_SIZE + 1];;
+	char			buf[BUFF_SIZE + 1];
 	char			*t;
 	char			*t_b;
 }					t_struct;

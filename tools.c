@@ -1,12 +1,6 @@
 #include "ls.h"
-#include "./libft/libft.h"
 
-void		set_perror(char *filename)
-{
-	ft_putstr_fd("ls: ", 2);
-	perror(filename);
-}
-
+/*
 void		sort_insertion(char **tab)
 {
 	int		i;
@@ -31,27 +25,28 @@ void		sort_insertion(char **tab)
 		i++;
 	}
 }
-
+*/
 char			**stock_dot(char **tab)
 {
 	int		i;
 	int		j;
 	char	**tmp;
-	
+	t_sort	sort;
+
 	i = 0;
 	j = 0;
-	if (!(tmp = (char **)malloc(sizeof(char *) * j + 1)))
+	sort = count_it(tab);
+	if (!(tmp = (char **)malloc(sizeof(char *) * (sort.nb_dot + 1))))
 		return (NULL);
 	while (tab[i])
 	{
 		if (tab[i][0] == '.')
 		{
-			tmp[j] = tab[i];
+			tmp[j] = ft_strdup(tab[i]);
 			j++;
 		}
 		i++;
 	}
-	free(tab);
 	tmp[j] = NULL;
 	return (tmp);
 }
@@ -61,16 +56,18 @@ char			**stock_upper(char **tab)
 	int		i;
 	int		j;
 	char	**tmp;
-	
+	t_sort	sort;
+
 	i = 0;
 	j = 0;
-	if (!(tmp = (char **)malloc(sizeof(char *) * j + 1)))
+	sort = count_it(tab);
+	if (!(tmp = (char **)malloc(sizeof(char *) * (sort.nb_up + 1))))
 		return (NULL);
 	while (tab[i])
 	{
 		if (tab[i][0] >= 65 && tab[i][0] <= 90)
 		{
-			tmp[j] = tab[i];
+			tmp[j] = ft_strdup(tab[i]);
 			j++;
 		}
 		i++;
@@ -84,16 +81,18 @@ char			**stock_lower(char **tab)
 	int		i;
 	int		j;
 	char	**tmp;
+	t_sort	sort;
 	
 	i = 0;
 	j = 0;
-	if (!(tmp = (char **)malloc(sizeof(char *) * j + 1)))
+	sort = count_it(tab);
+	if (!(tmp = (char **)malloc(sizeof(char *) * (sort.nb_low + 1))))
 		return (NULL);
 	while (tab[i])
 	{
 		if (tab[i][0] >= 97 && tab[i][0] <= 122)
 		{
-			tmp[j] = tab[i];
+			tmp[j] = ft_strdup(tab[i]);
 			j++;
 		}
 		i++;
@@ -102,56 +101,49 @@ char			**stock_lower(char **tab)
 	return (tmp);
 }
 
-char			**stock_tabs(t_sort *sort, char **dot, char **upper, char **lower)
+char			**stock_tabs(t_sort *sort, char **dot, char **up, char **low)
 {
 	char	**tmp;
-	int		total;
-
-	total = 0;
-	ft_putendl("before malloc");
-	if (!(tmp = (char **)malloc(sizeof(char *) * total + 1)))
+	
+	if (!(tmp = (char **)malloc(sizeof(char *) * (sort->len_tab + 1))))
 		return (NULL);
-	ft_putendl("after malloc");
 	while (dot[sort->i])
 	{
-		tmp[total] = dot[sort->i];
+		tmp[sort->total] = ft_strdup(dot[sort->i]);
 		sort->i++;
-		total++;
+		sort->total++;
 	}
-	while (upper[sort->j])
+	while (up[sort->j])
 	{
-		tmp[total] = upper[sort->j];
+		tmp[sort->total] = ft_strdup(up[sort->j]);
 		sort->j++;
-		total++;
+		sort->total++;
 	}
-	while (lower[sort->k])
+	while (low[sort->k])
 	{
-		tmp[total] = lower[sort->k];
+		tmp[sort->total] = ft_strdup(low[sort->k]);
 		sort->k++;
-		total++;
+		sort->total++;
 	}
-	tmp[total] = NULL;
+	tmp[sort->total] = NULL;
 	return (tmp);
 }
 
 char			**real_sort(char **tab)
 {
 	char		**dot;
-	char		**upper;
-	char		**lower;
+	char		**up;
+	char		**low;
 	t_sort		sort;
 
 	sort.i = 0;
 	sort.j = 0;
 	sort.k = 0;
-//	sort.total = 0;
-//	sort = NULL;
-//	ft_putendl("Is dot");
+	sort.total = 0;
+	sort.len_tab = tablen(tab);
 	dot = stock_dot(tab);
-//	ft_putendl("Not dot");
-	upper = stock_upper(tab);
-//	ft_putendl("Not upper");
-	lower = stock_lower(tab);
-//	ft_putendl("Not lower");
-	return (stock_tabs(&sort, dot, upper, lower));
+	up = stock_upper(tab);
+	low = stock_lower(tab);
+	tab = stock_tabs(&sort, dot, up, low);
+	return (tab);
 }

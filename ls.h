@@ -20,22 +20,26 @@ typedef	struct		s_opts
 
 typedef struct		s_sort
 {
-//	char	**dot;
-//	char	**upper;
-//	char	**lower;
-//	char	**tmp;
+	int		len_tab;
+	int		nb_dot;
+	int		nb_up;
+	int		nb_low;
 	int		i;
 	int		j;
 	int		k;
-//	int		total;
+	int		total;
 }					t_sort;
 
+int					dir_len(char *path);
+int					tablen(char **tab);
+t_sort				count_it(char **tab);
 char				**real_sort(char **tab);
-char				**stock_tabs(t_sort *sort, char **dot, char **upper, char **lower);
+char				**stock_tabs(t_sort *sort, char **dot, char **up,
+					char **low);
 char				**stock_lower(char **tab);
 char				**stock_upper(char **tab);
 char				**stock_dot(char **tab);
-void				sort_insertion(char **tab);
+/*void				sort_insertion(char **tab);*/
 char				**press_R(char **tab);
 t_bool				is_directory(char *str);
 char				**do_reverse(char **tab);
@@ -43,7 +47,7 @@ char				**counter_a(char **tab);
 void				return_opts(t_opts *opts);
 t_opts				*parsing(int argc, char **argv);
 t_bool				catch_opts(char c, t_opts *opts);
-char				**create_and_fill(DIR *directory);
+char				**create_and_fill(DIR *directory, int len);
 char				**stock_directory(char *path);
 
 #endif

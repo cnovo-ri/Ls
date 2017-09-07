@@ -1,5 +1,15 @@
 #include "ls.h"
 
+int			tablen(char **tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
 char		**counter_a(char **tab)
 {
 	int		i;
@@ -8,7 +18,7 @@ char		**counter_a(char **tab)
 	
 	i = 0;
 	j = 0;
-	if (!(tmp = (char **)malloc(sizeof(char *) * (j + 1))))
+	if (!(tmp = (char **)malloc(sizeof(char *) * (tablen(tab) + 1))))
 		return (NULL);
 	while (tab[i])
 	{
@@ -16,7 +26,7 @@ char		**counter_a(char **tab)
 			i++;
 		else
 		{
-			tmp[j] = tab[i];
+			tmp[j] = ft_strdup(tab[i]);
 			i++;
 			j++;
 		}
@@ -44,17 +54,6 @@ char		**do_reverse(char **tab)
 	}
 	return (tab);
 }
-/*
-char		*set_path(char *str)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	if (!(tmp = (char *)malloc(sizeof(char) * i + 1)))
-		return (NULL);
-	if (str[i] == '.')
-}*/
 
 char		**press_R(char **tab)
 {
@@ -71,8 +70,5 @@ char		**press_R(char **tab)
 			tmp = stock_directory(tab[i]);
 		i++;
 	}
-	while (tmp[k])
-		k++;
-	tmp[k] = NULL;
 	return(tmp);
 }
