@@ -1,21 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   options.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/07 21:48:47 by cnovo-ri          #+#    #+#             */
+/*   Updated: 2017/09/07 21:58:00 by cnovo-ri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ls.h"
-
-int			tablen(char **tab)
-{
-	int i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}
 
 char		**counter_a(char **tab)
 {
 	int		i;
 	int		j;
 	char	**tmp;
-	
+
 	i = 0;
 	j = 0;
 	if (!(tmp = (char **)malloc(sizeof(char *) * (tablen(tab) + 1))))
@@ -55,13 +57,12 @@ char		**do_reverse(char **tab)
 	return (tab);
 }
 
-char		**press_R(char **tab)
+char		**press_r(char **tab)
 {
 	int		i;
 	int		k;
 	char	**tmp;
-//	char	**last;
-
+/*	char	**last;*/
 	i = 0;
 	k = 0;
 	while (tab[i])
@@ -70,5 +71,5 @@ char		**press_R(char **tab)
 			tmp = stock_directory(tab[i]);
 		i++;
 	}
-	return(tmp);
+	return (tmp);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ls.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/07 21:48:26 by cnovo-ri          #+#    #+#             */
+/*   Updated: 2017/09/07 21:52:09 by cnovo-ri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LS_H
 # define LS_H
 
@@ -40,7 +52,7 @@ char				**stock_lower(char **tab);
 char				**stock_upper(char **tab);
 char				**stock_dot(char **tab);
 /*void				sort_insertion(char **tab);*/
-char				**press_R(char **tab);
+char				**press_r(char **tab);
 t_bool				is_directory(char *str);
 char				**do_reverse(char **tab);
 char				**counter_a(char **tab);

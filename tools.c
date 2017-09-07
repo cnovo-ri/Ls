@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tools.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/07 21:49:53 by cnovo-ri          #+#    #+#             */
+/*   Updated: 2017/09/07 22:00:46 by cnovo-ri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ls.h"
 
 /*
@@ -24,8 +36,8 @@ void		sort_insertion(char **tab)
 		tab[j] = current;
 		i++;
 	}
-}
-*/
+}*/
+
 char			**stock_dot(char **tab)
 {
 	int		i;
@@ -82,7 +94,7 @@ char			**stock_lower(char **tab)
 	int		j;
 	char	**tmp;
 	t_sort	sort;
-	
+
 	i = 0;
 	j = 0;
 	sort = count_it(tab);
@@ -104,7 +116,7 @@ char			**stock_lower(char **tab)
 char			**stock_tabs(t_sort *sort, char **dot, char **up, char **low)
 {
 	char	**tmp;
-	
+
 	if (!(tmp = (char **)malloc(sizeof(char *) * (sort->len_tab + 1))))
 		return (NULL);
 	while (dot[sort->i])

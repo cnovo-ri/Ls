@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   directory.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/07 21:47:47 by cnovo-ri          #+#    #+#             */
+/*   Updated: 2017/09/07 21:55:39 by cnovo-ri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ls.h"
 
- char		**create_and_fill(DIR *directory, int len)
+char		**create_and_fill(DIR *directory, int len)
 {
 	int				i;
 	char			**tab;
@@ -23,7 +34,7 @@ int			dir_len(char *path)
 {
 	DIR		*len_dir;
 	int		len;
-	
+
 	len = 0;
 	if ((len_dir = opendir(path)) == NULL)
 	{
@@ -31,7 +42,7 @@ int			dir_len(char *path)
 		return (-1);
 	}
 	while (readdir(len_dir))
-			len++;
+		len++;
 	if ((closedir(len_dir)) == -1)
 	{
 		perror(RED"error ");
@@ -53,7 +64,7 @@ char		**stock_directory(char *path)
 		return (NULL);
 	}
 	tab = create_and_fill(directory, len);
-	if ((closedir(directory))== -1)
+	if ((closedir(directory)) == -1)
 	{
 		perror(RED"error ");
 		return (NULL);
