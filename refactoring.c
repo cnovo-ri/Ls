@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/09/12 21:10:52 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/09/12 21:15:02 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,16 @@ int			main(int argc, char **argv)
 	opts = parsing(argc, argv);
 	(void)argc;
 	tab = stock_directory(".");
-//	if (opts->recursive == TRUE)
-//		tab = press_r(tab);
+	if (opts->recursive == TRUE)
+		tab = press_r(tab);
 	tab = real_sort(tab);
-	bubble_sort(tab);
-/*		if (opts->a == FALSE)
+	if (opts->a == FALSE)
 		tab = counter_a(tab);
 	if (opts->r == TRUE)
 		tab = do_reverse(tab);
-*/	while (tab[i])
+	if (opts->t == TRUE)
+		bubble_sort(tab);
+	while (tab[i])
 	{
 		ft_putendl(tab[i]);
 		i++;
