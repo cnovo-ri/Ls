@@ -6,11 +6,54 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/09/07 22:02:41 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/09/12 21:10:52 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ls.h"
+
+void		bubble_sort(char **tab)
+{
+	struct stat	s;
+	int			i;
+	t_bool		permu;
+	int			j;
+	char		*tmp;
+	long		time_tmp;
+
+	i = 0;
+	permu = TRUE;
+	while (permu)
+	{
+		permu = FALSE;
+		i++;
+		j = 0;
+		while (j < (tablen(tab) - i))
+		{
+			if (lstat(tab[j], &s) == -1)
+			{
+				perror(RED"stat ");
+				return;
+			}
+			if (time_tmp && s.st_ctime > time_tmp)
+			{
+				permu = TRUE;
+				tmp = tab[j];
+				tab[j] = tab[j + 1];
+				tab[j + 1] = tmp;
+			}
+			else if (time_tmp == s.st_ctime && ft_strcmp(tab[j], tab[j + 1]) > 0)
+			{
+				permu = TRUE;
+				tmp = tab[j];
+				tab[j] = tab[j + 1];
+				tab[j + 1] = tmp;
+			}
+			time_tmp = s.st_ctime;
+			j++;
+		}
+	}
+}
 
 t_sort		count_it(char **tab)
 {
@@ -60,14 +103,15 @@ int			main(int argc, char **argv)
 	opts = parsing(argc, argv);
 	(void)argc;
 	tab = stock_directory(".");
-	if (opts->recursive == TRUE)
-		tab = press_r(tab);
+//	if (opts->recursive == TRUE)
+//		tab = press_r(tab);
 	tab = real_sort(tab);
-	if (opts->a == FALSE)
+	bubble_sort(tab);
+/*		if (opts->a == FALSE)
 		tab = counter_a(tab);
 	if (opts->r == TRUE)
 		tab = do_reverse(tab);
-	while (tab[i])
+*/	while (tab[i])
 	{
 		ft_putendl(tab[i]);
 		i++;

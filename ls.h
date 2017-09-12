@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:26 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/09/07 21:52:09 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/09/12 21:06:33 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct		s_sort
 	int		total;
 }					t_sort;
 
+void				bubble_sort(char **tab);
+char				**timer(char **tab);
 int					dir_len(char *path);
 int					tablen(char **tab);
 t_sort				count_it(char **tab);
