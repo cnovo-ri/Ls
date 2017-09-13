@@ -57,23 +57,6 @@ char		**do_reverse(char **tab)
 	return (tab);
 }
 
-char		**press_r(char **tab)
-{
-	int		i;
-	int		k;
-	char	**tmp;
-/*	char	**last;*/
-	i = 0;
-	k = 0;
-	while (tab[i])
-	{
-		if (is_directory(tab[i]) == TRUE && tab[i][0] != '.')
-			tmp = stock_directory(tab[i]);
-		i++;
-	}
-	return (tmp);
-}
-
 static void		str_swap(char **str, char **str2)
 {
 	char	*tmp;
@@ -82,48 +65,41 @@ static void		str_swap(char **str, char **str2)
 	*str = *str2;
 	*str2 = tmp;
 }
-static void		class_timer(char **tab)
-{
-	struct stat	s;
-	struct stat	s_2;
-	int			i;
 
-	i = 0;
-	while (tab[i])
+static void		timer_2(t_timer *tim, char **tab)
+{
+	while (tim->i < (tablen(tab) - tim->j))
 	{
-		stat(tab[i], &s);
-		stat(tab[i + 1],  &s_2);
-		if (s.st_mtime == s_2.st_mtime)
+		lstat(tab[tim->i], &(tim->s));
+		lstat(tab[tim->i + 1],  &(tim->s_2));
+		if (tim->s.st_mtime > tim->s_2.st_mtime)
 		{
-			if (tab[i + 1] && ft_strcmp(tab[i], tab[i + 1]) > 0)
-			{
-				str_swap(&tab[i], &tab[i + 1]);
-				i = 0;
-			}
+			tim->permu = TRUE;
+			str_swap(&tab[tim->i], &tab[tim->i + 1]);
 		}
-		//printf("tab[%d] : %s ----> TIME : %ld\n", i, tab[i], s.st_mtime);
-		i++;
+		if (tim->s.st_mtime == tim->s_2.st_mtime && tab[tim->i + 1] &&
+			ft_strcmp(tab[tim->i],tab[tim->i + 1]) < 0)
+		{
+			tim->permu = TRUE;
+			str_swap(&tab[tim->i], &tab[tim->i + 1]);
+		}
+		tim->i++;
 	}
 }
 
-void			timer(char **tab)
+char			**timer(char **tab)
 {
-	struct stat	s;
-	struct stat	s_2;
-	int			i;
-
-	i = 0;
-	while (tab[i])
+	t_timer		tim;
+	
+	tim.j = 0;
+	tim.permu = TRUE;
+	while (tim.permu)
 	{
-		stat(tab[i], &s);
-		stat(tab[i + 1],  &s_2);
-		if (s.st_mtime > s_2.st_mtime)
-		{
-			str_swap(&tab[i], &tab[i + 1]);
-			i = 0;
-		}
-		i++;
+		tim.permu = FALSE;
+		tim.j++;
+		tim.i = 0;
+		timer_2(&tim, tab);
 	}
 	tab = do_reverse(tab);
-	class_timer(tab);
+	return (tab);
 }

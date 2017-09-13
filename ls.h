@@ -21,6 +21,15 @@ typedef enum		e_bool
 	TRUE
 }					t_bool;
 
+typedef struct		s_timer
+{
+	struct stat	s;
+	struct stat	s_2;
+	int			i;
+	int			j;
+	t_bool		permu;
+}					t_timer;
+
 typedef	struct		s_opts
 {
 	t_bool			l;
@@ -42,8 +51,7 @@ typedef struct		s_sort
 	int		total;
 }					t_sort;
 
-//void				bubble_sort(char **tab);
-void				timer(char **tab);
+char				**timer(char **tab);
 int					dir_len(char *path);
 int					tablen(char **tab);
 t_sort				count_it(char **tab);
