@@ -42,8 +42,8 @@ typedef struct		s_sort
 	int		total;
 }					t_sort;
 
-void				bubble_sort(char **tab);
-char				**timer(char **tab);
+//void				bubble_sort(char **tab);
+void				timer(char **tab);
 int					dir_len(char *path);
 int					tablen(char **tab);
 t_sort				count_it(char **tab);

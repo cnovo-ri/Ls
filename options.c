@@ -74,28 +74,56 @@ char		**press_r(char **tab)
 	return (tmp);
 }
 
-char		**timer(char **tab)
+static void		str_swap(char **str, char **str2)
+{
+	char	*tmp;
+
+	tmp = *str;
+	*str = *str2;
+	*str2 = tmp;
+}
+static void		class_timer(char **tab)
 {
 	struct stat	s;
-	long		*tmp;
+	struct stat	s_2;
 	int			i;
-//	long		stock_time;
 
 	i = 0;
-	//stock_time = 0;
-	if (!(tmp = (long *)malloc(sizeof(long) * tablen(tab) + 1)))
-		return (NULL);
 	while (tab[i])
 	{
-		if (lstat(tab[i], &s) == -1)
+		stat(tab[i], &s);
+		stat(tab[i + 1],  &s_2);
+		if (s.st_mtime == s_2.st_mtime)
 		{
-			perror(RED"stat ");
-			return (NULL);
+			if (tab[i + 1] && ft_strcmp(tab[i], tab[i + 1]) > 0)
+			{
+				str_swap(&tab[i], &tab[i + 1]);
+				i = 0;
+			}
+		}
+		//printf("tab[%d] : %s ----> TIME : %ld\n", i, tab[i], s.st_mtime);
+		i++;
+	}
+}
+
+void			timer(char **tab)
+{
+	struct stat	s;
+	struct stat	s_2;
+	int			i;
+
+	i = 0;
+	while (tab[i])
+	{
+		stat(tab[i], &s);
+		stat(tab[i + 1],  &s_2);
+		if (s.st_mtime > s_2.st_mtime)
+		{
+			str_swap(&tab[i], &tab[i + 1]);
+			i = 0;
 		}
 		i++;
-
-	//	tmp[i] = s.st_ctime;
-		printf("tab[%d] : %s ---> st_ctime : %ld\n", i, tab[i], s.st_ctime);
 	}
-	return(tab);
+	tab = do_reverse(tab);
+	class_timer(tab);
 }

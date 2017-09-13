@@ -12,7 +12,7 @@
 
 #include "ls.h"
 
-void		bubble_sort(char **tab)
+/*void		bubble_sort(char **tab)
 {
 	struct stat	s;
 	int			i;
@@ -35,25 +35,29 @@ void		bubble_sort(char **tab)
 				perror(RED"stat ");
 				return;
 			}
-			if (time_tmp && s.st_ctime > time_tmp)
+			if (time_tmp && time_tmp > s.st_mtime)
 			{
 				permu = TRUE;
-				tmp = tab[j];
-				tab[j] = tab[j + 1];
-				tab[j + 1] = tmp;
+				tmp = tab[j - 1];
+				tab[j - 1] = tab[j];
+				tab[j] = tmp;
 			}
-			else if (time_tmp == s.st_ctime && ft_strcmp(tab[j], tab[j + 1]) > 0)
+			if (time_tmp == s.st_mtime)
 			{
-				permu = TRUE;
-				tmp = tab[j];
-				tab[j] = tab[j + 1];
-				tab[j + 1] = tmp;
+				if (ft_strcmp(tab[j - 1], tab[j]) > 0)
+				{
+					permu = TRUE;
+					tmp = tab[j - 1];
+					tab[j - 1] = tab[j];
+					tab[j] = tmp;
+				}
 			}
-			time_tmp = s.st_ctime;
+			time_tmp = s.st_mtime;
+//			printf("tab[%d] : %s\n", j, tab[j]);
 			j++;
 		}
 	}
-}
+}*/
 
 t_sort		count_it(char **tab)
 {
@@ -98,6 +102,7 @@ int			main(int argc, char **argv)
 	t_opts			*opts;
 	char			**tab;
 	int				i;
+	struct stat		s;
 
 	i = 0;
 	opts = parsing(argc, argv);
@@ -111,11 +116,17 @@ int			main(int argc, char **argv)
 	if (opts->r == TRUE)
 		tab = do_reverse(tab);
 	if (opts->t == TRUE)
-		bubble_sort(tab);
+		timer(tab);
 	while (tab[i])
+	{
+		lstat(tab[i], &s);
+		printf("tab[%d] : %s ----> TIME : %ld\n", i, tab[i], s.st_mtime);
+		i++;
+	}
+/*	while (tab[i])
 	{
 		ft_putendl(tab[i]);
 		i++;
 	}
-	return (0);
+*/	return (0);
 }
