@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:47:47 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/09/12 19:39:41 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/09/14 19:48:30 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_bool		is_directory(char *str)
 {
 	struct stat		st;
 
-	if (stat(str, &st) == 0)
+	if (lstat(str, &st) == 0)
 		if (S_ISDIR(st.st_mode))
 			return (TRUE);
 	return (FALSE);

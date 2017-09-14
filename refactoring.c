@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/09/12 21:16:26 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/09/14 20:31:29 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int			main(int argc, char **argv)
 		tab = timer(tab);
 	if (opts->r == TRUE)
 		tab = do_reverse(tab);
+	if (opts->l == TRUE)
+		tab = do_l(tab);
 	while (tab[i])
 	{
 		ft_putendl(tab[i]);
