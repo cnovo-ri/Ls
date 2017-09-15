@@ -39,23 +39,27 @@ static char		*catch_rights(char *tab)
 	if (!(tmp = (char *)malloc(sizeof(char) * 11)))
 		return (NULL);
 	lstat(tab, &s);
+	tmp[i] = (S_ISCHR(s.st_mode)) ? 'c' : (S_ISDIR(s.st_mode)) ? 'd':
+		(S_ISBLK(s.st_mode)) ? 'b' : (S_ISFIFO(s.st_mode)) ? 'p' :
+		(S_ISLNK(s.st_mode)) ? 'l' : (S_ISSOCK(s.st_mode)) ? 's' : '-';
+	i++;
 	tmp[i] = (S_IRUSR & s.st_mode) ? 'r' : '-';
 	i++;
 	tmp[i] = (S_IWUSR & s.st_mode) ? 'w' : '-';
 	i++;
-	tmp[i] = (S_IXUSR & s.st_mode) ? 'x' : '-';
+	tmp[i] = (S_IXUSR & s.st_mode) ? 'x' : (S_ISUID & s.st_mode) ? 's' : '-';
 	i++;
 	tmp[i] = (S_IRGRP & s.st_mode) ? 'r' : '-';
 	i++;
 	tmp[i] = (S_IWGRP & s.st_mode) ? 'w' : '-';
 	i++;
-	tmp[i] = (S_IXGRP & s.st_mode) ? 'x' : '-';
+	tmp[i] = (S_IXGRP & s.st_mode) ? 'x' : (S_ISGID & s.st_mode) ? 's' : '-';
 	i++;
 	tmp[i] = (S_IROTH & s.st_mode) ? 'r' : '-';
 	i++;
 	tmp[i] = (S_IWOTH & s.st_mode) ? 'w' : '-';
 	i++;
-	tmp[i] = (S_IXOTH & s.st_mode) ? 'x' : '-';
+	tmp[i] = (S_IXOTH & s.st_mode) ? 'x' : (S_ISVTX & s.st_mode) ? 't' : '-';
 	i++;
 	tmp[i] = '\0';
 	return (tmp);
