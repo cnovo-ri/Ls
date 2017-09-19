@@ -54,12 +54,14 @@ int			main(int argc, char **argv)
 {
 	t_opts		*opts;
 	char		**tab;
+	char		*path;
 	int			i;
 
 	i = 0;
 	opts = parsing(argc, argv);
 	(void)argc;
-	tab = stock_directory(".");
+	path = "./";
+	tab = stock_directory(path);
 	if (opts->recursive == TRUE)
 		tab = press_r(tab);
 	tab = real_sort(tab);
@@ -69,11 +71,14 @@ int			main(int argc, char **argv)
 		tab = timer(tab);
 	if (opts->r == TRUE)
 		tab = do_reverse(tab);
-	if (opts->l == TRUE)
-		tab = do_l(tab);
+	if (opts->l == TRUE && opts->m != TRUE)
+		tab = do_l(tab, path);
 	while (tab[i])
 	{
-		ft_putendl(tab[i]);
+		if (opts->m == TRUE)
+			do_m(tab, tab[i], i);
+		else
+			ft_putendl(tab[i]);
 		i++;
 	}
 	return (0);

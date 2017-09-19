@@ -14,7 +14,7 @@
 
 t_bool		catch_opts(char c, t_opts *opts)
 {
-	if (ft_strchr("lRart", c))
+	if (ft_strchr("lRartm", c))
 	{
 		if ('l' == c)
 			opts->l = TRUE;
@@ -26,6 +26,8 @@ t_bool		catch_opts(char c, t_opts *opts)
 			opts->r = TRUE;
 		if ('t' == c)
 			opts->t = TRUE;
+		if ('m' == c)
+			opts->m = TRUE;
 		return (TRUE);
 	}
 	return (FALSE);
@@ -79,4 +81,7 @@ void		return_opts(t_opts *opts)
 		ft_putendl(YELLOW"r");
 	if (opts->t == TRUE)
 		ft_putendl(CYAN"t");
+	if (opts->m == TRUE)
+		ft_putendl(PURPLE"m");
+
 }

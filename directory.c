@@ -45,7 +45,7 @@ int			dir_len(char *path)
 		len++;
 	if ((closedir(len_dir)) == -1)
 	{
-		perror(RED"error ");
+		perror(RED"Error ");
 		return (-1);
 	}
 	return (len);
