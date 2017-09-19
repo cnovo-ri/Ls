@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 19:41:45 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/09/14 20:58:57 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/09/19 21:11:58 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,17 @@ static char		*catch_rights_2(struct stat *s, char *tmp, int i, char *str)
 		(S_ISVTX & s->st_mode) ? 'T' : (S_IXOTH & s->st_mode) ? 'x' : '-';
 	i++;
 	tmp[i] = ((xattr = listxattr(str, NULL, 1, XATTR_NOFOLLOW)) > 0) ? '@' :
-		((acl = acl_get_file(str, ACL_TYPE_EXTENDED)) != NULL) ? '+' : ' ';
-	i++;
+		((acl = acl_get_file(str, ACL_TYPE_EXTENDED)) != NULL &&
+		(!(S_ISLNK(s->st_mode)))) ? '+' : ' ';
+	/*if (((acl = acl_get_file(str, ACL_TYPE_EXTENDED)) != NULL))
+	{
+		ft_putendl(str);
+		ft_putstr(acl_to_text(acl, (ssize_t *)str));
+	}
+*/	i++;
 	tmp[i] = '\0';
+	//acl = acl_get_file(str, ACL_TYPE_EXTENDED);
+	//ft_putstr(acl_to_text(acl, (ssize_t *)str));
 	return (tmp);
 }
 
