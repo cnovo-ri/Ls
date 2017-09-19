@@ -65,12 +65,17 @@ int			main(int argc, char **argv)
 	if (opts->recursive == TRUE)
 		tab = press_r(tab);
 	tab = real_sort(tab);
+	if (opts->almost == TRUE)
+	{
+		tab = almost_all(tab);
+		opts->a = TRUE;
+	}
 	if (opts->a == FALSE)
 		tab = counter_a(tab);
-	if (opts->t == TRUE)
-		tab = timer(tab);
 	if (opts->r == TRUE)
 		tab = do_reverse(tab);
+	if (opts->t == TRUE)
+		tab = timer(tab);
 	if (opts->l == TRUE && opts->m != TRUE)
 		tab = do_l(tab, path);
 	while (tab[i])

@@ -14,7 +14,7 @@
 
 t_bool		catch_opts(char c, t_opts *opts)
 {
-	if (ft_strchr("lRartm", c))
+	if (ft_strchr("lRartmA", c))
 	{
 		if ('l' == c)
 			opts->l = TRUE;
@@ -28,6 +28,8 @@ t_bool		catch_opts(char c, t_opts *opts)
 			opts->t = TRUE;
 		if ('m' == c)
 			opts->m = TRUE;
+		if ('A' == c)
+			opts->almost = TRUE;
 		return (TRUE);
 	}
 	return (FALSE);

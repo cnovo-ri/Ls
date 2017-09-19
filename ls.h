@@ -38,6 +38,7 @@ typedef	struct		s_opts
 	t_bool			r;
 	t_bool			t;
 	t_bool			m;
+	t_bool			almost;
 }					t_opts;
 
 typedef struct		s_sort
@@ -52,6 +53,7 @@ typedef struct		s_sort
 	int		total;
 }					t_sort;
 
+char				**almost_all(char **tab);
 void				do_m(char **tab, char *str, int i);
 char				**do_l(char **tab, char *path);
 char				**timer(char **tab);

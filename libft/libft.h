@@ -23,6 +23,7 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <sys/xattr.h>
 
 # define BLACK		"\033[1;30m"
 # define RED		"\033[1;31m"

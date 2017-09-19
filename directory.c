@@ -38,15 +38,15 @@ int			dir_len(char *path)
 	len = 0;
 	if ((len_dir = opendir(path)) == NULL)
 	{
-		perror(RED"Error ");
-		return (-1);
+		perror(RED"Error opendir(len_dir)");
+		exit(EXIT_FAILURE);
 	}
 	while (readdir(len_dir))
 		len++;
 	if ((closedir(len_dir)) == -1)
 	{
-		perror(RED"Error ");
-		return (-1);
+		perror(RED"Error closedir");
+		exit(EXIT_FAILURE);
 	}
 	return (len);
 }
@@ -60,14 +60,14 @@ char		**stock_directory(char *path)
 	len = dir_len(path);
 	if ((directory = opendir(path)) == NULL)
 	{
-		perror(RED"error ");
-		return (NULL);
+		perror(RED"error opendir(directory)");
+		exit(EXIT_FAILURE);
 	}
 	tab = create_and_fill(directory, len);
 	if ((closedir(directory)) == -1)
 	{
-		perror(RED"error ");
-		return (NULL);
+		perror(RED"error closedir(directory)");
+		exit(EXIT_FAILURE);
 	}
 	return (tab);
 }
