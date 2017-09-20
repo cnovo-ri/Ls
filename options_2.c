@@ -13,26 +13,6 @@
 #include "ls.h"
 #include <sys/acl.h>
 
-char			**almost_all(char **tab)
-{
-	char	**tmp;
-	int		i;
-	int		j;
-
-	i = 2;
-	j = 0;
-	if (!(tmp = (char **)malloc(sizeof(char *) * (tablen(tab) - 1))))
-		return (NULL);
-	while (tab[i])
-	{
-		tmp[j] = tab[i];
-		i++;
-		j++;
-	}
-	tmp[j] = NULL;
-	return (tmp);
-}
-
 static char		*catch_rights_2(struct stat *s, char *tmp, int i, char *str)
 {
 	int		xattr;
@@ -51,15 +31,17 @@ static char		*catch_rights_2(struct stat *s, char *tmp, int i, char *str)
 	tmp[i] = ((xattr = listxattr(str, NULL, 1, XATTR_NOFOLLOW)) > 0) ? '@' :
 		((acl = acl_get_file(str, ACL_TYPE_EXTENDED)) != NULL &&
 		(!(S_ISLNK(s->st_mode)))) ? '+' : ' ';
-	/*if (((acl = acl_get_file(str, ACL_TYPE_EXTENDED)) != NULL))
+/*
+//////////////////////POTENTIAL -e/////////////////////////
+
+	if (((acl = acl_get_file(str, ACL_TYPE_EXTENDED)) != NULL))
 	{
 		ft_putendl(str);
 		ft_putstr(acl_to_text(acl, (ssize_t *)str));
 	}
-*/	i++;
+*/
+	i++;
 	tmp[i] = '\0';
-	//acl = acl_get_file(str, ACL_TYPE_EXTENDED);
-	//ft_putstr(acl_to_text(acl, (ssize_t *)str));
 	return (tmp);
 }
 
@@ -89,6 +71,34 @@ static char		*catch_rights(struct stat *s, char *str)
 	return (catch_rights_2(s, tmp, i, str));
 }
 
+static int		count_file(char *str, char *tab_line)
+{
+	char	**tab;
+	int		i;
+
+	if (str[0] == 'd')
+	{
+		tab = stock_directory(tab_line);
+		i = tablen(tab);
+	}
+	else
+		i = 1;
+	return (i);
+}
+
+static char		*uid_gid(struct stat *s)
+{
+	struct passwd	*pwd_uid;
+	struct group	*pwd_gid;
+	char			*tmp;
+
+	pwd_uid = getpwuid(s->st_uid);
+	pwd_gid = getgrgid(s->st_gid);
+	tmp = ft_strjoin(pwd_uid->pw_name, "  ");
+	tmp = ft_strjoin(tmp, pwd_gid->gr_name);
+	return(tmp);
+}
+
 char			**do_l(char **tab, char *path)
 {
 	struct stat	s;
@@ -108,17 +118,14 @@ char			**do_l(char **tab, char *path)
 		exit(EXIT_FAILURE);
 	}
 		tmp[i] = catch_rights(&s, ft_strjoin(path, tab[i]));
+		ft_putstr(tmp[i]);
+		ft_putchar(' ');
+		ft_putnbr(count_file(tmp[i], ft_strjoin(path, tab[i])));
+		ft_putchar(' ');
+		ft_putstr(uid_gid(&s));
+		ft_putchar('\n');
 		i++;
 	}
 	tmp[i] = NULL;
 	return (tmp);
-}
-
-void		do_m(char **tab, char *str, int i)
-{
-	ft_putstr(str);
-	if (tab[i + 1])
-		ft_putstr(", ");
-	else
-		ft_putchar('\n');
 }

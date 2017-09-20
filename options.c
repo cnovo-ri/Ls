@@ -57,7 +57,7 @@ char		**do_reverse(char **tab)
 	return (tab);
 }
 
-static void		str_swap(char **str, char **str2)
+void		str_swap(char **str, char **str2)
 
 {
 	char	*tmp;

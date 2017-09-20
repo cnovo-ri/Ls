@@ -53,6 +53,8 @@ typedef struct		s_sort
 	int		total;
 }					t_sort;
 
+void				bubble_sort(char **tab);
+void				str_swap(char **str, char **str2);
 char				**almost_all(char **tab);
 void				do_m(char **tab, char *str, int i);
 char				**do_l(char **tab, char *path);
@@ -66,8 +68,7 @@ char				**stock_tabs(t_sort *sort, char **dot, char **up,
 char				**stock_lower(char **tab);
 char				**stock_upper(char **tab);
 char				**stock_dot(char **tab);
-/*void				sort_insertion(char **tab);*/
-char				**press_r(char **tab);
+char				**press_r(char **tab, char *path);
 t_bool				is_directory(char *str);
 char				**do_reverse(char **tab);
 char				**counter_a(char **tab);

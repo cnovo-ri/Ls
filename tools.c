@@ -12,31 +12,33 @@
 
 #include "ls.h"
 
-/*
-void		sort_insertion(char **tab)
+void			bubble_sort(char **tab)
 {
 	int		i;
 	int		j;
-	int		size;
-	char	*current;
+	t_bool	permu;
+	char	*tmp;
 
-	i = 1;
-	size = 0;
-	while (tab[size])
-		size++;
-	while ( i < size)
+	i = 0;
+	permu = TRUE;
+	while (permu)
 	{
-		current = tab[i];
-		j = i;
-		while (j > 0 && tab[j - 1] > current)
-		{
-			tab[j] = tab[j - 1];
-			j--;
-		}
-		tab[j] = current;
+		permu = FALSE;
 		i++;
+		j = 0;
+		while (j < (tablen(tab) - i))
+		{
+			if (ft_strcmp(tab[j], tab[j + 1]) > 0)
+			{
+				permu = TRUE;
+				tmp =  tab[j];
+				tab[j] = tab[j + 1];
+				tab[j + 1] = tmp;
+			}
+			j++;
+		}
 	}
-}*/
+}
 
 char			**stock_dot(char **tab)
 {
@@ -60,6 +62,7 @@ char			**stock_dot(char **tab)
 		i++;
 	}
 	tmp[j] = NULL;
+	bubble_sort(tmp);
 	return (tmp);
 }
 

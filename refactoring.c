@@ -60,10 +60,10 @@ int			main(int argc, char **argv)
 	i = 0;
 	opts = parsing(argc, argv);
 	(void)argc;
-	path = "./";
+	path = "/dev/";
 	tab = stock_directory(path);
 	if (opts->recursive == TRUE)
-		tab = press_r(tab);
+		tab = press_r(tab, path);
 	tab = real_sort(tab);
 	if (opts->almost == TRUE)
 	{
@@ -82,7 +82,7 @@ int			main(int argc, char **argv)
 	{
 		if (opts->m == TRUE)
 			do_m(tab, tab[i], i);
-		else
+		else if (opts->l == FALSE)
 			ft_putendl(tab[i]);
 		i++;
 	}
