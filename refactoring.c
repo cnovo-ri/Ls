@@ -12,44 +12,6 @@
 
 #include "ls.h"
 
-t_sort		count_it(char **tab)
-{
-	int		i;
-	t_sort	sort;
-
-	i = 0;
-	sort.nb_dot = 0;
-	sort.nb_up = 0;
-	sort.nb_low = 0;
-	while (tab[i])
-	{
-		if (tab[i][0] == '.')
-			sort.nb_dot++;
-		else if (tab[i][0] >= 65 && tab[i][0] <= 90)
-			sort.nb_up++;
-		else if (tab[i][0] >= 97 && tab[i][0] <= 122)
-			sort.nb_low++;
-		i++;
-	}
-	return (sort);
-}
-
-void		set_perror(char *filename)
-{
-	ft_putstr_fd("ls: ", 2);
-	perror(filename);
-}
-
-int			tablen(char **tab)
-{
-	int i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}
-
 int			main(int argc, char **argv)
 {
 	t_opts		*opts;
