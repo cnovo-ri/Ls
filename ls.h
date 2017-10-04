@@ -53,11 +53,12 @@ typedef struct		s_sort
 	int		total;
 }					t_sort;
 
+char				*get_date(struct stat *s);
 void				bubble_sort(char **tab);
 void				str_swap(char **str, char **str2);
 char				**almost_all(char **tab);
 void				do_m(char **tab, char *str, int i);
-char				**do_l(char **tab, char *path);
+void				do_l(char **tab, char *path);
 char				**timer(char **tab);
 int					dir_len(char *path);
 int					tablen(char **tab);

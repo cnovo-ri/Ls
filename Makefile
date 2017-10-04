@@ -13,7 +13,7 @@
 NAME=ls
 
 SRC=directory.c check_opts.c options.c options_2.c options_3.c tools.c \
-	refactoring.c
+	refactoring.c real_sort.c
 
 LIB=./libft/libft.a
 

@@ -1,6 +1,26 @@
 #include "ls.h"
 
-void		do_m(char **tab, char *str, int i)
+char			*get_date(struct stat *s)
+{
+	time_t	timestamp;
+	char	*date;
+	char	*final_date;
+
+	if (!(final_date = ft_strnew(12)))
+		return (NULL);
+	time(&timestamp);
+	date = ctime(&s->st_mtime);
+	if (labs(timestamp - s->st_mtime) > 15552000)
+	{
+		ft_strncpy(final_date, &date[4], 7);
+		ft_strncpy(&final_date[7], &date[19], 5);
+	}
+	else
+		ft_strncpy(final_date, &date[4], 12);
+	return (final_date);
+}
+
+void			do_m(char **tab, char *str, int i)
 {
 	ft_putstr(str);
 	if (tab[i + 1])

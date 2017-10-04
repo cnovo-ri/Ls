@@ -71,21 +71,6 @@ static char		*catch_rights(struct stat *s, char *str)
 	return (catch_rights_2(s, tmp, i, str));
 }
 
-static int		count_file(char *str, char *tab_line)
-{
-	char	**tab;
-	int		i;
-
-	if (str[0] == 'd')
-	{
-		tab = stock_directory(tab_line);
-		i = tablen(tab);
-	}
-	else
-		i = 1;
-	return (i);
-}
-
 static char		*uid_gid(struct stat *s)
 {
 	struct passwd	*pwd_uid;
@@ -99,16 +84,48 @@ static char		*uid_gid(struct stat *s)
 	return(tmp);
 }
 
-char			**do_l(char **tab, char *path)
+static void		total_block(char **tab, char *path)
+{
+	struct stat s;
+	char		*tmp;
+	t_opts		opts;
+	int			total;
+	int			i;
+
+	i = 0;
+	total = 0;
+	while (tab[i])
+	{
+		tmp = ft_strjoin(path, tab[i]);
+		lstat(tmp, &s);
+		if (opts.a == FALSE)
+		{
+			while (tab[i][0] == '.')
+				i++;
+		}
+		total += s.st_blocks;
+		i++;
+	}
+	ft_putstr("total ");
+	ft_putnbr(total);
+	ft_putchar('\n');
+}
+
+void			do_l(char **tab, char *path)
 {
 	struct stat	s;
 	char		**tmp;
 	char		*str;
 	int			i;
+	ssize_t		ret;
+	char		*ptr;
 
 	i = 0;
 	if (!(tmp = (char **)malloc(sizeof(char *) * (tablen(tab) + 1))))
-		return (NULL);
+		return ;
+	if (!(ptr = (char *)malloc(sizeof(char) * 255)))
+		return ;
+	total_block(tab, path);
 	while (tab[i])
 	{
 		str = ft_strjoin(path, tab[i]);
@@ -120,12 +137,24 @@ char			**do_l(char **tab, char *path)
 		tmp[i] = catch_rights(&s, ft_strjoin(path, tab[i]));
 		ft_putstr(tmp[i]);
 		ft_putchar(' ');
-		ft_putnbr(count_file(tmp[i], ft_strjoin(path, tab[i])));
+		ft_putnbr(s.st_nlink);
 		ft_putchar(' ');
 		ft_putstr(uid_gid(&s));
-		ft_putchar('\n');
+		ft_putchar(' ');
+		ft_putnbr(s.st_size);
+		ft_putstr("  ");
+		ft_putstr(get_date(&s));
+		ft_putchar(' ');
+		if ((ret = readlink(ft_strjoin(path, tab[i]), ptr, 255)) != -1)
+		{
+			ptr[ret] = '\0';
+			ft_putstr(tab[i]);
+			ft_putstr(" -> ");
+			ft_putendl(ptr);
+		}
+		else
+			ft_putendl(tab[i]);
 		i++;
 	}
 	tmp[i] = NULL;
-	return (tmp);
 }

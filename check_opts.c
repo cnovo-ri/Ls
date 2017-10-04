@@ -40,7 +40,7 @@ void		put_error(char c)
 	ft_putstr_fd("ls: illegal option -- ", 2);
 	ft_putchar_fd(c, 2);
 	ft_putchar_fd('\n', 2);
-	ft_putstr_fd("usage : ls [-lRart] [file ...]\n", 2);
+	ft_putstr_fd("usage : ls [-lRartmA] [file ...]\n", 2);
 	exit(EXIT_FAILURE);
 }
 
