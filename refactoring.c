@@ -74,7 +74,9 @@ int			main(int argc, char **argv)
 	//	printf(GREEN"\n\nargv :%s\n\n"NORMAL, argv[j]);
 		i = 0;
 		path = get_path(argc, args[j]);
-	//	printf(GREEN"\npath :%s\n\n"NORMAL, path);
+		if (j >= 1)
+			ft_putstr("\n\n");
+//	printf(GREEN"\npath :%s\n\n"NORMAL, path);
 		tab = stock_directory(path);
 		if (opts->recursive == TRUE)
 			tab = press_r(tab, path);
