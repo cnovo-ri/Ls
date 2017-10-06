@@ -12,28 +12,17 @@
 
 #include "ls.h"
 
-static char		*get_path(int argc, char *argv)
+static char		*get_path(int argc, char *args)
 {
-	char	*path;
+	char	*tmp;
 
-	path = NULL;
-	if (ft_strcmp(argv, "./ls/") > 0)
-	{
-		ft_putendl(YELLOW"ERROR");
-		if (argv[ft_strlen(argv)] != '/')
-		{
-			path = ft_strdup(ft_strjoin(argv, "/"));
-			return (path);
-		}
-		else
-		{
-			path = ft_strdup(argv);
-			return (path);
-		}
-	}
-	if (argc == 1)
-		path = "./";
-	return (path);
+	if (argc != 1 && args[ft_strlen(args)] != '/')
+		tmp = ft_strdup(ft_strjoin(args, "/"));
+	else
+		tmp = ft_strdup(args);
+	if (ft_strcmp(args, "./ls") == 0)
+		tmp = "./";
+	return (tmp);
 }
 
 static char		**stock_args(int argc, char **argv)
@@ -44,15 +33,20 @@ static char		**stock_args(int argc, char **argv)
 
 	i = 0;
 	j = 0;
-	if (!(tmp = (char **)malloc(sizeof(char *) * argc)))
+	if (!(tmp = (char **)malloc(sizeof(char *) * argc + 1)))
 		return (NULL);
-	while (i < argc)
+	while (i < argc && argc > 1)
 	{
-		if (argv[i][0] != '-')
+		if (argv[i][0] != '-' && ft_strcmp(argv[i], "./ls") != 0)
 			tmp[j++] = argv[i];
 		i++;
 	}
+	if (argc == 1)
+		tmp[j++] = argv[i];
+	if (argc > 1 && argv[i - 1][0] == '-')
+		tmp[j++] = ".";
 	tmp[j] = NULL;
+	bubble_sort(tmp);
 	return (tmp);
 }
 
@@ -68,18 +62,19 @@ int			main(int argc, char **argv)
 	j = 0;
 	opts = parsing(argc, argv);
 	args = stock_args(argc, argv);
-	printf(YELLOW"argc :%d\n"NORMAL, argc);
+/*	printf(YELLOW"argc :%d\n"NORMAL, argc);
 	while (args[j])
 	{
-		printf(YELLOW"argv[%d] : %s\n", j, args[j]);
+		printf(YELLOW"args[%d] : %s\n", j, args[j]);
 		j++;
 	}
-//	while (argv[j])
-//	{
-//		printf(GREEN"\n\nargv :%s\n\n"NORMAL, argv[j]);
+	j = 0;
+*/	while (args[j])
+	{
+	//	printf(GREEN"\n\nargv :%s\n\n"NORMAL, argv[j]);
 		i = 0;
-		path = get_path(argc, argv[j]);
-//		printf(GREEN"\npath :%s\n\n"NORMAL, path);
+		path = get_path(argc, args[j]);
+	//	printf(GREEN"\npath :%s\n\n"NORMAL, path);
 		tab = stock_directory(path);
 		if (opts->recursive == TRUE)
 			tab = press_r(tab, path);
@@ -87,10 +82,7 @@ int			main(int argc, char **argv)
 		if (opts->a == FALSE)
 		{
 			if (opts->almost == TRUE)
-			{
-				ft_putendl(CYAN"A");
 				tab = almost_all(tab);
-			}
 			else
 				tab = counter_a(tab);
 		}
@@ -108,7 +100,7 @@ int			main(int argc, char **argv)
 				ft_putendl(tab[i]);
 			i++;
 		}
-//		j++;
-//	}
+		j++;
+	}
 	return (0);
 }

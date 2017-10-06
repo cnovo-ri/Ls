@@ -85,5 +85,6 @@ void		return_opts(t_opts *opts)
 		ft_putendl(CYAN"t");
 	if (opts->m == TRUE)
 		ft_putendl(PURPLE"m");
-
+	if (opts->almost == TRUE)
+		ft_putendl(CYAN"A");
 }
