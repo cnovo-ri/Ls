@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/07 03:09:16 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/05 22:52:55 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,16 @@ int			main(int argc, char **argv)
 	//	printf(GREEN"\n\nargv :%s\n\n"NORMAL, argv[j]);
 		i = 0;
 		path = get_path(argc, args[j]);
-		if (tablen(args) > 1)
-		{
-			if (j > 0)
-				ft_putchar('\n');
-			ft_putstr(args[j]);
-			ft_putstr(":\n");
-		}
-			//	printf(GREEN"\npath :%s\n\n"NORMAL, path);
+		if (j >= 1)
+			ft_putstr("\n");
+		if (j > 0)
+			ft_putstr(ft_strjoin(path,":\n"));
+//	printf(GREEN"\npath :%s\n\n"NORMAL, path);
 		tab = stock_directory(path);
 		if (opts->recursive == TRUE)
 			tab = press_r(tab, path);
 		tab = real_sort(tab);
-		if (ft_strcmp(path,"/dev/") == 0)
+		if (ft_strcmp(path, "/dev/") == 0)
 			bubble_sort(tab);
 		if (opts->a == FALSE)
 		{

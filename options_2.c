@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 19:41:45 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/07 05:49:48 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/09/19 21:11:58 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,7 @@ static char		*uid_gid(struct stat *s)
 
 	pwd_uid = getpwuid(s->st_uid);
 	pwd_gid = getgrgid(s->st_gid);
-/*	if (!(pwd_uid->pw_name))
-		ft_putnbr(s->st_uid);
-*/	tmp = ft_strjoin(pwd_uid->pw_name, "  ");
+	tmp = ft_strjoin(pwd_uid->pw_name, "  ");
 	tmp = ft_strjoin(tmp, pwd_gid->gr_name);
 	return(tmp);
 }
@@ -143,7 +141,14 @@ void			do_l(char **tab, char *path)
 		ft_putchar(' ');
 		ft_putstr(uid_gid(&s));
 		ft_putchar(' ');
-		ft_putnbr(s.st_size);
+		if (!(major(s.st_rdev) && minor(s.st_rdev)))
+			ft_putnbr(s.st_size);
+		else
+		{
+			ft_putnbr(major(s.st_rdev));
+			ft_putstr(", ");
+			ft_putnbr(minor(s.st_rdev));
+		}
 		ft_putstr("  ");
 		ft_putstr(get_date(&s));
 		ft_putchar(' ');
