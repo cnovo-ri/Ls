@@ -55,9 +55,11 @@ char			*uid_gid(struct stat *s)
 	struct group	*pwd_gid;
 	char			*tmp;
 
-	pwd_uid = getpwuid(s->st_uid);
 	pwd_gid = getgrgid(s->st_gid);
-	tmp = ft_strjoin(pwd_uid->pw_name, "  ");
+	if (!(pwd_uid = getpwuid(s->st_uid)))
+		tmp = ft_strjoin((ft_itoa(s->st_uid)), "  ");
+	else
+		tmp = ft_strjoin(pwd_uid->pw_name, "  ");
 	tmp = ft_strjoin(tmp, pwd_gid->gr_name);
 	return(tmp);
 }

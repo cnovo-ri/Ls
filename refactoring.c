@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/05 22:52:55 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/11 22:16:02 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char		*get_path(int argc, char *args)
 {
 	char		*tmp;
 
-	if (argc != 1 && args[ft_strlen(args)] != '/')
+	if (argc != 1 && args[ft_strlen(args)] != '/' && is_directory(args) == TRUE)
 		tmp = ft_strdup(ft_strjoin(args, "/"));
 	else
 		tmp = ft_strdup(args);
@@ -27,7 +27,7 @@ static char		*get_path(int argc, char *args)
 
 static char		**stock_args(int argc, char **argv)
 {
-	DIR		*dir;
+//	DIR		*dir;
 	char	**tmp;
 	int		i;
 	int		j;
@@ -41,16 +41,14 @@ static char		**stock_args(int argc, char **argv)
 	while (i < argc && argc > 1)
 	{
 		if (argv[i][0] != '-' && ft_strcmp(argv[i], "./ft_ls") != 0)
-		{
-			tmp[j++] = argv[k];
-			k++;
-		}
+			tmp[j++] = argv[i];
 		i++;
 	}
 	if (argc == 1)
-		tmp[j++] = argv[k];
-	printf("argv[%d] : %s\n", k, argv[k]);
-	while (argv[k])
+		tmp[j++] = argv[i];
+	if (argc > 1 && argv[i - 1][0] == '-')
+		tmp[j++] = ".";
+	/*	while (argv[k])
 	{
 		if (argc > 1 && argv[k][0] == '-')
 		{
@@ -59,7 +57,7 @@ static char		**stock_args(int argc, char **argv)
 		}
 		k++;
 	}
-	tmp[j] = NULL;
+*/	tmp[j] = NULL;
 	bubble_sort(tmp);
 	return (tmp);
 }
@@ -76,15 +74,17 @@ int			main(int argc, char **argv)
 	j = 0;
 	opts = parsing(argc, argv);
 	args = stock_args(argc, argv);
-/*	printf(YELLOW"argc :%d\n"NORMAL, argc);*/
-	while (args[j])
-	{
-		printf(YELLOW"args[%d] : %s\n", j, args[j]);
-		j++;
-	}
-	j = 0;
+//	printf(YELLOW"argc :%d\n"NORMAL, argc);
+	if (opts->t == TRUE)
+		args = timer(args);
 	if (opts->r == TRUE)
 		args = do_reverse(args);
+/*	while (args[j])
+	{
+		printf(CYAN"args[%d] : %s\n"NORMAL, j, args[j]);
+		j++;
+	}
+*/	j = 0;
 	while (args[j])
 	{
 //		printf(GREEN"\n\nargvs :%s\n\nj :%d\n"NORMAL, args[j], j);
@@ -94,14 +94,15 @@ int			main(int argc, char **argv)
 			ft_putstr("\n");
 		if (tablen(args) > 1)
 			ft_putstr(ft_strjoin(args[j],":\n"));
-//	printf(GREEN"\npath :%s\n\n"NORMAL, path);
+		printf(GREEN"\npath :%s\n\n"NORMAL, path);
 		tab = stock_directory(path);
 		if (opts->recursive == TRUE)
 			tab = press_r(tab, path);
-		tab = real_sort(tab);
-		if (ft_strcmp(path, "/dev/") == 0)
+		bubble_sort(tab);
+		//tab = real_sort(tab);
+/*		if (ft_strcmp(path, "/dev/") == 0)
 			bubble_sort(tab);
-		if (opts->a == FALSE)
+*/		if (opts->a == FALSE)
 		{
 			if (opts->almost == TRUE)
 				tab = almost_all(tab);
