@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ls.h"
+#include "ft_ls.h"
 
 char		**counter_a(char **tab)
 {
@@ -91,7 +91,7 @@ static void		timer_2(t_timer *tim, char **tab)
 char			**timer(char **tab)
 {
 	t_timer		tim;
-	
+
 	tim.j = 0;
 	tim.permu = TRUE;
 	while (tim.permu)

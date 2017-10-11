@@ -10,18 +10,16 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME=ls
+NAME=ft_ls
 
-SRC=directory.c check_opts.c options.c options_2.c options_3.c tools.c \
-	refactoring.c real_sort.c
+SRC=directory.c check_opts.c options.c options_2.c options_3.c options_4.c \
+	tools.c refactoring.c real_sort.c
 
 LIB=./libft/libft.a
 
 OBJ=$(SRC:.c=.o)
 
 FLAGS= -g -Wall -Wextra -Werror
-
-#debug flags : -g -fsanitize=address
 
 CC=cc
 

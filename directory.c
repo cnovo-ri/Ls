@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ls.h"
+#include "ft_ls.h"
 
 char		**create_and_fill(DIR *directory, int len)
 {
@@ -53,9 +53,9 @@ int			dir_len(char *path)
 
 char		**stock_directory(char *path)
 {
-	DIR		*directory;
-	char	**tab;
-	int		len;
+	DIR			*directory;
+	char		**tab;
+	int			len;
 
 	len = dir_len(path);
 	if ((directory = opendir(path)) == NULL)

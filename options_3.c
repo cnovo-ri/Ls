@@ -1,4 +1,4 @@
-#include "ls.h"
+#include "ft_ls.h"
 
 char			*get_date(struct stat *s)
 {
@@ -49,21 +49,40 @@ char			**almost_all(char **tab)
 	return (tmp);
 }
 
-char			**press_r(char **tab, char *path)
+char			*uid_gid(struct stat *s)
 {
-	int		i;
-	int		k;
-	char	**tmp;
-	char	*real_path;
+	struct passwd	*pwd_uid;
+	struct group	*pwd_gid;
+	char			*tmp;
+
+	pwd_uid = getpwuid(s->st_uid);
+	pwd_gid = getgrgid(s->st_gid);
+	tmp = ft_strjoin(pwd_uid->pw_name, "  ");
+	tmp = ft_strjoin(tmp, pwd_gid->gr_name);
+	return(tmp);
+}
+
+int				total_block(char **tab, char *path)
+{
+	struct stat s;
+	char		*tmp;
+	t_opts		opts;
+	int			total;
+	int			i;
 
 	i = 0;
-	k = 0;
+	total = 0;
 	while (tab[i])
 	{
-		real_path = ft_strjoin(path, tab[i]);
-		if (is_directory(real_path) == TRUE && tab[i][0] != '.')
-			tmp = stock_directory(real_path);
+		tmp = ft_strjoin(path, tab[i]);
+		lstat(tmp, &s);
+		if (opts.a == FALSE)
+		{
+			while (tab[i][0] == '.')
+				i++;
+		}
+		total += s.st_blocks;
 		i++;
 	}
-	return (tmp);
+	return (total);
 }

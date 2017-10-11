@@ -1,5 +1,5 @@
 
-#include "ls.h"
+#include "ft_ls.h"
 
 char			**stock_dot(char **tab)
 {

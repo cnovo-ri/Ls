@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ls.h"
+#include "ft_ls.h"
 
 t_bool		catch_opts(char c, t_opts *opts)
 {
-	if (ft_strchr("lRartmA", c))
+	if (ft_strchr("lRartmA1", c))
 	{
 		if ('l' == c)
 			opts->l = TRUE;
@@ -30,6 +30,8 @@ t_bool		catch_opts(char c, t_opts *opts)
 			opts->m = TRUE;
 		if ('A' == c)
 			opts->almost = TRUE;
+		if ('1' == c)
+			opts->one = TRUE;
 		return (TRUE);
 	}
 	return (FALSE);
@@ -40,7 +42,7 @@ void		put_error(char c)
 	ft_putstr_fd("ls: illegal option -- ", 2);
 	ft_putchar_fd(c, 2);
 	ft_putchar_fd('\n', 2);
-	ft_putstr_fd("usage : ls [-lRartmA] [file ...]\n", 2);
+	ft_putstr_fd("usage : ls [-lRartmA1] [file ...]\n", 2);
 	exit(EXIT_FAILURE);
 }
 
@@ -87,4 +89,6 @@ void		return_opts(t_opts *opts)
 		ft_putendl(PURPLE"m");
 	if (opts->almost == TRUE)
 		ft_putendl(CYAN"A");
+	if (opts->one == TRUE)
+		ft_putendl(GREY"1");
 }

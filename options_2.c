@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ls.h"
+#include "ft_ls.h"
 #include <sys/acl.h>
 
 static char		*catch_rights_2(struct stat *s, char *tmp, int i, char *str)
@@ -31,15 +31,6 @@ static char		*catch_rights_2(struct stat *s, char *tmp, int i, char *str)
 	tmp[i] = ((xattr = listxattr(str, NULL, 1, XATTR_NOFOLLOW)) > 0) ? '@' :
 		((acl = acl_get_file(str, ACL_TYPE_EXTENDED)) != NULL &&
 		(!(S_ISLNK(s->st_mode)))) ? '+' : ' ';
-/*
-//////////////////////POTENTIAL -e/////////////////////////
-
-	if (((acl = acl_get_file(str, ACL_TYPE_EXTENDED)) != NULL))
-	{
-		ft_putendl(str);
-		ft_putstr(acl_to_text(acl, (ssize_t *)str));
-	}
-*/
 	i++;
 	tmp[i] = '\0';
 	return (tmp);
@@ -71,97 +62,70 @@ static char		*catch_rights(struct stat *s, char *str)
 	return (catch_rights_2(s, tmp, i, str));
 }
 
-static char		*uid_gid(struct stat *s)
+static void		print_l2(struct stat *s, char *tab, char *path, char *ptr)
 {
-	struct passwd	*pwd_uid;
-	struct group	*pwd_gid;
-	char			*tmp;
+	ssize_t		ret;
 
-	pwd_uid = getpwuid(s->st_uid);
-	pwd_gid = getgrgid(s->st_gid);
-	tmp = ft_strjoin(pwd_uid->pw_name, "  ");
-	tmp = ft_strjoin(tmp, pwd_gid->gr_name);
-	return(tmp);
+	if (major(s->st_rdev) || minor(s->st_rdev))
+	{
+		ft_putnbr(major(s->st_rdev));
+		ft_putstr(", ");
+		ft_putnbr(minor(s->st_rdev));
+	}
+	else
+		ft_putnbr(s->st_size);
+	ft_putstr(ft_strjoin("  ", get_date(s)));
+	ft_putchar(' ');
+	if ((ret = readlink(ft_strjoin(path, tab), ptr, 255)) != -1)
+	{
+		ptr[ret] = '\0';
+		ft_putstr(ft_strjoin(tab, " -> "));
+		ft_putendl(ptr);
+	}
+	else
+		ft_putendl(tab);
 }
 
-static void		total_block(char **tab, char *path)
+static void			print_l1(char **tab, char *path, char **tmp, struct stat *s)
 {
-	struct stat s;
-	char		*tmp;
-	t_opts		opts;
-	int			total;
-	int			i;
+	char	*str;
+	char	*ptr;
+	int		i;
 
+	if (!(ptr = (char *)malloc(sizeof(char) * 255)))
+		return ;
 	i = 0;
-	total = 0;
 	while (tab[i])
 	{
-		tmp = ft_strjoin(path, tab[i]);
-		lstat(tmp, &s);
-		if (opts.a == FALSE)
+		str = ft_strjoin(path, tab[i]);
+		if (lstat(str, s) == -1)
 		{
-			while (tab[i][0] == '.')
-				i++;
+			perror(RED"ERROR LSTAT ");
+			exit(EXIT_FAILURE);
 		}
-		total += s.st_blocks;
+		tmp[i] = catch_rights(s, ft_strjoin(path, tab[i]));
+		ft_putstr(ft_strjoin(tmp[i], " "));
+		ft_putnbr(s->st_nlink);
+		ft_putchar(' ');
+		ft_putstr(ft_strjoin(uid_gid(s), " "));
+		print_l2(s, tab[i], path, ptr);
 		i++;
 	}
-	ft_putstr("total ");
-	ft_putnbr(total);
-	ft_putchar('\n');
 }
 
 void			do_l(char **tab, char *path)
 {
 	struct stat	s;
 	char		**tmp;
-	char		*str;
-	int			i;
-	ssize_t		ret;
-	char		*ptr;
 
-	i = 0;
 	if (!(tmp = (char **)malloc(sizeof(char *) * (tablen(tab) + 1))))
 		return ;
-	if (!(ptr = (char *)malloc(sizeof(char) * 255)))
-		return ;
-	total_block(tab, path);
-	while (tab[i])
+	if (tab[0])
 	{
-		str = ft_strjoin(path, tab[i]);
-		if (lstat(str, &s) == -1)
-	{
-		perror(RED"ERROR LSTAT ");
-		exit(EXIT_FAILURE);
+		ft_putstr("total ");
+		ft_putnbr(total_block(tab, path));
+		ft_putchar('\n');
 	}
-		tmp[i] = catch_rights(&s, ft_strjoin(path, tab[i]));
-		ft_putstr(tmp[i]);
-		ft_putchar(' ');
-		ft_putnbr(s.st_nlink);
-		ft_putchar(' ');
-		ft_putstr(uid_gid(&s));
-		ft_putchar(' ');
-		if (!(major(s.st_rdev) && minor(s.st_rdev)))
-			ft_putnbr(s.st_size);
-		else
-		{
-			ft_putnbr(major(s.st_rdev));
-			ft_putstr(", ");
-			ft_putnbr(minor(s.st_rdev));
-		}
-		ft_putstr("  ");
-		ft_putstr(get_date(&s));
-		ft_putchar(' ');
-		if ((ret = readlink(ft_strjoin(path, tab[i]), ptr, 255)) != -1)
-		{
-			ptr[ret] = '\0';
-			ft_putstr(tab[i]);
-			ft_putstr(" -> ");
-			ft_putendl(ptr);
-		}
-		else
-			ft_putendl(tab[i]);
-		i++;
-	}
-	tmp[i] = NULL;
+	print_l1(tab, path, tmp, &s);
+	free(tmp);
 }
