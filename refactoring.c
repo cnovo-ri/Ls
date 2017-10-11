@@ -27,24 +27,38 @@ static char		*get_path(int argc, char *args)
 
 static char		**stock_args(int argc, char **argv)
 {
+	DIR		*dir;
 	char	**tmp;
 	int		i;
 	int		j;
+	int		k;
 
 	i = 0;
 	j = 0;
+	k = 0;
 	if (!(tmp = (char **)malloc(sizeof(char *) * argc + 1)))
 		return (NULL);
 	while (i < argc && argc > 1)
 	{
 		if (argv[i][0] != '-' && ft_strcmp(argv[i], "./ft_ls") != 0)
-			tmp[j++] = argv[i];
+		{
+			tmp[j++] = argv[k];
+			k++;
+		}
 		i++;
 	}
 	if (argc == 1)
-		tmp[j++] = argv[i];
-	if (argc > 1 && argv[i - 1][0] == '-')
-		tmp[j++] = ".";
+		tmp[j++] = argv[k];
+	printf("argv[%d] : %s\n", k, argv[k]);
+	while (argv[k])
+	{
+		if (argc > 1 && argv[k][0] == '-')
+		{
+			if ((dir = opendir(argv[k])) == NULL)
+				set_perror(argv[k]);
+		}
+		k++;
+	}
 	tmp[j] = NULL;
 	bubble_sort(tmp);
 	return (tmp);
@@ -62,14 +76,14 @@ int			main(int argc, char **argv)
 	j = 0;
 	opts = parsing(argc, argv);
 	args = stock_args(argc, argv);
-/*	printf(YELLOW"argc :%d\n"NORMAL, argc);
+/*	printf(YELLOW"argc :%d\n"NORMAL, argc);*/
 	while (args[j])
 	{
 		printf(YELLOW"args[%d] : %s\n", j, args[j]);
 		j++;
 	}
 	j = 0;
-*/	if (opts->r == TRUE)
+	if (opts->r == TRUE)
 		args = do_reverse(args);
 	while (args[j])
 	{
