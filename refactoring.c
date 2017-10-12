@@ -40,7 +40,46 @@ static char		**stock_args(int argc, char **argv)
 		return (NULL);
 	while (i < argc && argc > 1)
 	{
-		if (argv[i][0] != '-' && ft_strcmp(argv[i], "./ft_ls") != 0)
+		if (argv[i][0] != '-' && ft_strcmp(argv[i], "./ft_ls") != 0 &&
+			is_directory(argv[i]) == TRUE)
+			tmp[j++] = argv[i];
+		i++;
+	}
+	if (argc == 1)
+		tmp[j++] = argv[i];
+	if (argc > 1 && argv[i - 1][0] == '-')
+		tmp[j++] = ".";
+	/*	while (argv[k])
+	{
+		if (argc > 1 && argv[k][0] == '-')
+		{
+			if ((dir = opendir(argv[k])) == NULL)
+				set_perror(argv[k]);
+		}
+		k++;
+	}
+*/	tmp[j] = NULL;
+	bubble_sort(tmp);
+	return (tmp);
+}
+
+static char		**stock_files(int argc, char **argv)
+{
+//	DIR		*dir;
+	char	**tmp;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	if (!(tmp = (char **)malloc(sizeof(char *) * argc + 1)))
+		return (NULL);
+	while (i < argc && argc > 1)
+	{
+		if (argv[i][0] != '-' && ft_strcmp(argv[i], "./ft_ls") != 0 &&
+			is_directory(argv[i]) != TRUE)
 			tmp[j++] = argv[i];
 		i++;
 	}
@@ -68,12 +107,14 @@ int			main(int argc, char **argv)
 	char		**tab;
 	char		*path;
 	char		**args;
+	char		**files;
 	int			i;
 	int			j;
 
 	j = 0;
 	opts = parsing(argc, argv);
 	args = stock_args(argc, argv);
+	files = stock_files(argc, argv);
 //	printf(YELLOW"argc :%d\n"NORMAL, argc);
 	if (opts->t == TRUE)
 		args = timer(args);
@@ -84,10 +125,42 @@ int			main(int argc, char **argv)
 		printf(CYAN"args[%d] : %s\n"NORMAL, j, args[j]);
 		j++;
 	}
-*/	j = 0;
+	j = 0;
+	while (files[j])
+	{
+		printf(YELLOW"files[%d] : %s\n"NORMAL, j, files[j]);
+		j++;
+	}
+	j = 0;
+*/	if (files)
+	{
+		i = 0;
+		path = "./";
+		if (opts->a == FALSE)
+		{
+			if (opts->almost == TRUE)
+				files = almost_all(files);
+			else
+				files = counter_a(files);
+		}
+		if (opts->t == TRUE)
+			files = timer(files);
+		if (opts->r == TRUE)
+			files = do_reverse(files);
+		if (opts->l == TRUE && opts->m != TRUE && opts->one != TRUE)
+			do_l(files, path);
+		while (files[i])
+		{
+			if (opts->m == TRUE)
+				do_m(files, files[i], i);
+			else if (opts->l == FALSE || opts->one == TRUE)
+				ft_putendl(files[i]);
+			i++;	
+		}
+	}
 	while (args[j])
 	{
-//		printf(GREEN"\n\nargvs :%s\n\nj :%d\n"NORMAL, args[j], j);
+//			printf(GREEN"\n\nargvs :%s\n\nj :%d\n"NORMAL, args[j], j);
 		i = 0;
 		path = get_path(argc, args[j]);
 		if (j >= 1)
@@ -121,7 +194,7 @@ int			main(int argc, char **argv)
 				do_m(tab, tab[i], i);
 			else if (opts->l == FALSE || opts->one == TRUE)
 				ft_putendl(tab[i]);
-			i++;
+			i++;	
 		}
 		j++;
 	}
