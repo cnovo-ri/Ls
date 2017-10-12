@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/11 22:16:02 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/13 01:14:29 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ static char		**stock_files(int argc, char **argv)
 	}
 	if (argc == 1)
 		tmp[j++] = argv[i];
-	if (argc > 1 && argv[i - 1][0] == '-')
+/*	if (argc > 1 && argv[i - 1][0] == '-')
 		tmp[j++] = ".";
-	/*	while (argv[k])
+*/	/*	while (argv[k])
 	{
 		if (argc > 1 && argv[k][0] == '-')
 		{
@@ -120,7 +120,7 @@ int			main(int argc, char **argv)
 		args = timer(args);
 	if (opts->r == TRUE)
 		args = do_reverse(args);
-/*	while (args[j])
+	while (args[j])
 	{
 		printf(CYAN"args[%d] : %s\n"NORMAL, j, args[j]);
 		j++;
@@ -132,10 +132,11 @@ int			main(int argc, char **argv)
 		j++;
 	}
 	j = 0;
-*/	if (files)
+	if (files)
 	{
 		i = 0;
 		path = "./";
+		opts->file_tab = TRUE;
 		if (opts->a == FALSE)
 		{
 			if (opts->almost == TRUE)
@@ -148,16 +149,19 @@ int			main(int argc, char **argv)
 		if (opts->r == TRUE)
 			files = do_reverse(files);
 		if (opts->l == TRUE && opts->m != TRUE && opts->one != TRUE)
-			do_l(files, path);
+			do_l(files, path, opts);
 		while (files[i])
 		{
 			if (opts->m == TRUE)
 				do_m(files, files[i], i);
 			else if (opts->l == FALSE || opts->one == TRUE)
 				ft_putendl(files[i]);
-			i++;	
+			i++;
 		}
 	}
+	if (tablen(args) > 0 && tablen(files) > 0)
+		ft_putchar('\n');
+	opts->file_tab = FALSE;
 	while (args[j])
 	{
 //			printf(GREEN"\n\nargvs :%s\n\nj :%d\n"NORMAL, args[j], j);
@@ -165,9 +169,9 @@ int			main(int argc, char **argv)
 		path = get_path(argc, args[j]);
 		if (j >= 1)
 			ft_putstr("\n");
-		if (tablen(args) > 1)
+		if (tablen(args) > 1 || (tablen(args) == 1 && tablen(files) > 0))
 			ft_putstr(ft_strjoin(args[j],":\n"));
-		printf(GREEN"\npath :%s\n\n"NORMAL, path);
+//		printf(GREEN"\npath :%s\n\n"NORMAL, path);
 		tab = stock_directory(path);
 		if (opts->recursive == TRUE)
 			tab = press_r(tab, path);
@@ -187,14 +191,14 @@ int			main(int argc, char **argv)
 		if (opts->r == TRUE)
 			tab = do_reverse(tab);
 		if (opts->l == TRUE && opts->m != TRUE && opts->one != TRUE)
-			do_l(tab, path);
+			do_l(tab, path, opts);
 		while (tab[i])
 		{
 			if (opts->m == TRUE)
 				do_m(tab, tab[i], i);
 			else if (opts->l == FALSE || opts->one == TRUE)
 				ft_putendl(tab[i]);
-			i++;	
+			i++;
 		}
 		j++;
 	}

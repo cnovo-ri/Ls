@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:26 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/09/14 20:30:22 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/13 01:12:48 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ typedef enum		e_bool
 	FALSE,
 	TRUE
 }					t_bool;
+
+typedef struct		s_long
+{
+	char		*str;
+	char		*ptr;
+	char		**tmp;
+	int			i;
+}					t_long;
 
 typedef struct		s_timer
 {
@@ -40,6 +48,7 @@ typedef	struct		s_opts
 	t_bool			m;
 	t_bool			almost;
 	t_bool			one;
+	t_bool			file_tab;
 }					t_opts;
 
 typedef struct		s_sort
@@ -61,7 +70,7 @@ void				bubble_sort(char **tab);
 void				str_swap(char **str, char **str2);
 char				**almost_all(char **tab);
 void				do_m(char **tab, char *str, int i);
-void				do_l(char **tab, char *path);
+void				do_l(char **tab, char *path, t_opts *opts);
 char				**timer(char **tab);
 int					dir_len(char *path);
 int					tablen(char **tab);
