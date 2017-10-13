@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/13 01:14:29 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/13 21:40:36 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static char		**stock_args(int argc, char **argv)
 	char	**tmp;
 	int		i;
 	int		j;
-	int		k;
+//	int		k;
 
 	i = 0;
 	j = 0;
-	k = 0;
+//	k = 0;
 	if (!(tmp = (char **)malloc(sizeof(char *) * argc + 1)))
 		return (NULL);
 	while (i < argc && argc > 1)
@@ -47,26 +47,20 @@ static char		**stock_args(int argc, char **argv)
 	}
 	if (argc == 1)
 		tmp[j++] = argv[i];
-	if (argc > 1 && argv[i - 1][0] == '-')
+	if (argc > 1 && argv[i - 1][0] == '-' && j == 0)
 		tmp[j++] = ".";
-	/*	while (argv[k])
-	{
-		if (argc > 1 && argv[k][0] == '-')
-		{
-			if ((dir = opendir(argv[k])) == NULL)
-				set_perror(argv[k]);
-		}
-		k++;
-	}
-*/	tmp[j] = NULL;
+	tmp[j] = NULL;
 	bubble_sort(tmp);
 	return (tmp);
 }
 
 static char		**stock_files(int argc, char **argv)
 {
-//	DIR		*dir;
+	struct stat	s;
+	//	DIR		*dir;
 	char	**tmp;
+	char	**error_tab;
+	int		error;
 	int		i;
 	int		j;
 	int		k;
@@ -74,29 +68,35 @@ static char		**stock_files(int argc, char **argv)
 	i = 0;
 	j = 0;
 	k = 0;
+	error = 0;
 	if (!(tmp = (char **)malloc(sizeof(char *) * argc + 1)))
+		return (NULL);
+	if (!(error_tab = (char **)malloc(sizeof(char *) * argc + 1)))
 		return (NULL);
 	while (i < argc && argc > 1)
 	{
 		if (argv[i][0] != '-' && ft_strcmp(argv[i], "./ft_ls") != 0 &&
-			is_directory(argv[i]) != TRUE)
+			is_directory(argv[i]) != TRUE && lstat(argv[i], &s) != -1)
+		{
 			tmp[j++] = argv[i];
+			error = 1;
+		}
+		if (j > 0)
+			if (lstat(argv[i], &s) == -1 && ft_strcmp(argv[i], "./ft_ls") != 0)
+				error_tab[k++] = argv[i];
 		i++;
 	}
+	error_tab[k] = NULL;
+	bubble_sort(error_tab);
+	k = 0;
+	while (error_tab[k])
+		set_perror(error_tab[k++]);
 	if (argc == 1)
 		tmp[j++] = argv[i];
-/*	if (argc > 1 && argv[i - 1][0] == '-')
+	if (argc > 1 && argv[i - 1][0] == '-')
 		tmp[j++] = ".";
-*/	/*	while (argv[k])
-	{
-		if (argc > 1 && argv[k][0] == '-')
-		{
-			if ((dir = opendir(argv[k])) == NULL)
-				set_perror(argv[k]);
-		}
-		k++;
-	}
-*/	tmp[j] = NULL;
+	tmp[j] = NULL;
+	free(error_tab);
 	bubble_sort(tmp);
 	return (tmp);
 }
@@ -120,7 +120,7 @@ int			main(int argc, char **argv)
 		args = timer(args);
 	if (opts->r == TRUE)
 		args = do_reverse(args);
-	while (args[j])
+/*	while (args[j])
 	{
 		printf(CYAN"args[%d] : %s\n"NORMAL, j, args[j]);
 		j++;
@@ -132,7 +132,7 @@ int			main(int argc, char **argv)
 		j++;
 	}
 	j = 0;
-	if (files)
+*/	if (files)
 	{
 		i = 0;
 		path = "./";

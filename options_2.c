@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 19:41:45 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/13 01:20:26 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/13 17:21:58 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static void			print_l1(char **tab, char *path, t_opts *opts,
 		if (lstat(l.str, s) == -1)
 		{
 			perror(RED"ERROR LSTAT ");
-			exit(EXIT_FAILURE);
+				exit(EXIT_FAILURE);
 		}
 		l.tmp[l.i] = catch_rights(s, ft_strjoin(path, tab[l.i]));
 		ft_putstr(ft_strjoin(l.tmp[l.i], " "));
