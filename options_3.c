@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   options_3.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/16 00:05:30 by cnovo-ri          #+#    #+#             */
+/*   Updated: 2017/10/16 00:05:49 by cnovo-ri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
 char			*get_date(struct stat *s)
@@ -61,7 +73,7 @@ char			*uid_gid(struct stat *s)
 	else
 		tmp = ft_strjoin(pwd_uid->pw_name, "  ");
 	tmp = ft_strjoin(tmp, pwd_gid->gr_name);
-	return(tmp);
+	return (tmp);
 }
 
 int				total_block(char **tab, char *path, t_opts *opts)

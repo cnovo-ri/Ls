@@ -6,13 +6,13 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:53 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/09/07 22:00:46 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/16 00:08:31 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void			bubble_sort(char **tab)
+void		bubble_sort(char **tab)
 {
 	int		i;
 	int		j;
@@ -31,7 +31,7 @@ void			bubble_sort(char **tab)
 			if (ft_strcmp(tab[j], tab[j + 1]) > 0)
 			{
 				permu = TRUE;
-				tmp =  tab[j];
+				tmp = tab[j];
 				tab[j] = tab[j + 1];
 				tab[j + 1] = tmp;
 			}
@@ -76,4 +76,17 @@ int			tablen(char **tab)
 	while (tab[i])
 		i++;
 	return (i);
+}
+
+char		user_exec(struct stat *s, char c)
+{
+	if ((S_ISUID & s->st_mode) && (S_IXUSR & s->st_mode))
+		c = 's';
+	else if (S_ISUID & s->st_mode)
+		c = 'S';
+	else if (S_IXUSR & s->st_mode)
+		c = 'x';
+	else
+		c = '-';
+	return (c);
 }

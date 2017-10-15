@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:47 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/11 19:43:01 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/15 22:25:25 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char		**do_reverse(char **tab)
 }
 
 void		str_swap(char **str, char **str2)
-
 {
 	char	*tmp;
 
@@ -67,39 +66,44 @@ void		str_swap(char **str, char **str2)
 	*str2 = tmp;
 }
 
-static void		timer_2(t_timer *tim, char **tab)
+static void	timer_2(t_timer *tim, char **tab, char *path)
 {
-	while (tim->i < (tablen(tab) - tim->j))
+	char	*tmp;
+	char	*tmp_2;
+
+	while (tim->j < (tablen(tab) - tim->i))
 	{
-		lstat(tab[tim->i], &(tim->s));
-		lstat(tab[tim->i + 1],  &(tim->s_2));
+		tmp = ft_strjoin(path, tab[tim->j]);
+		tmp_2 = ft_strjoin(path, tab[tim->j + 1]);
+		lstat(tmp, &(tim->s));
+		lstat(tmp_2, &(tim->s_2));
 		if (tim->s.st_mtime > tim->s_2.st_mtime)
 		{
 			tim->permu = TRUE;
-			str_swap(&tab[tim->i], &tab[tim->i + 1]);
+			str_swap(&tab[tim->j], &tab[tim->j + 1]);
 		}
-		if (tim->s.st_mtime == tim->s_2.st_mtime && tab[tim->i + 1] &&
-			ft_strcmp(tab[tim->i],tab[tim->i + 1]) < 0)
+		if (tim->s.st_mtime == tim->s_2.st_mtime && tmp_2 &&
+			ft_strcmp(tmp, tmp_2) < 0)
 		{
 			tim->permu = TRUE;
-			str_swap(&tab[tim->i], &tab[tim->i + 1]);
+			str_swap(&tab[tim->j], &tab[tim->j + 1]);
 		}
-		tim->i++;
+		tim->j++;
 	}
 }
 
-char			**timer(char **tab)
+char		**timer(char **tab, char *path)
 {
-	t_timer		tim;
+	t_timer	tim;
 
-	tim.j = 0;
+	tim.i = 0;
 	tim.permu = TRUE;
 	while (tim.permu)
 	{
 		tim.permu = FALSE;
-		tim.j++;
-		tim.i = 0;
-		timer_2(&tim, tab);
+		tim.i++;
+		tim.j = 0;
+		timer_2(&tim, tab, path);
 	}
 	tab = do_reverse(tab);
 	return (tab);

@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:47:47 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/11 20:20:46 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/16 01:38:26 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ int			dir_len(char *path)
 	len = 0;
 	if ((len_dir = opendir(path)) == NULL)
 	{
-		perror(RED"Error opendir(len_dir)");
-		exit(EXIT_FAILURE);
+		set_perror(path);
+		return (-1);
 	}
 	while (readdir(len_dir))
 		len++;
 	if ((closedir(len_dir)) == -1)
 	{
-		perror(RED"Error closedir(len_dir)");
-		exit(EXIT_FAILURE);
+		set_perror(path);
+		return (-1);
 	}
 	return (len);
 }
@@ -57,17 +57,18 @@ char		**stock_directory(char *path)
 	char		**tab;
 	int			len;
 
-	len = dir_len(path);
+	if ((len = dir_len(path)) == -1)
+		return (NULL);
 	if ((directory = opendir(path)) == NULL)
 	{
-		perror(RED"error opendir(directory)");
-		exit(EXIT_FAILURE);
+		set_perror(path);
+		return (NULL);
 	}
 	tab = create_and_fill(directory, len);
 	if ((closedir(directory)) == -1)
 	{
-		perror(RED"error closedir(directory)");
-		exit(EXIT_FAILURE);
+		set_perror(path);
+		return (NULL);
 	}
 	return (tab);
 }
