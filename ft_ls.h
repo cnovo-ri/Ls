@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:26 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/13 01:12:48 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/15 02:26:44 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ typedef enum		e_bool
 	FALSE,
 	TRUE
 }					t_bool;
+
+typedef struct		s_var
+{
+	struct stat	s;
+	char		**tmp;
+	char		**error_tab;
+	int			i;
+	int			j;
+	int			k;
+	int			dir;
+	int			error;
+}					t_var;
 
 typedef struct		s_long
 {
@@ -63,7 +75,7 @@ typedef struct		s_sort
 	int		total;
 }					t_sort;
 
-int					total_block(char **tab, char *path);
+int					total_block(char **tab, char *path, t_opts *opts);
 char				*uid_gid(struct stat *s);
 char				*get_date(struct stat *s);
 void				bubble_sort(char **tab);

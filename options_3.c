@@ -64,11 +64,10 @@ char			*uid_gid(struct stat *s)
 	return(tmp);
 }
 
-int				total_block(char **tab, char *path)
+int				total_block(char **tab, char *path, t_opts *opts)
 {
 	struct stat s;
 	char		*tmp;
-	t_opts		opts;
 	int			total;
 	int			i;
 
@@ -78,7 +77,7 @@ int				total_block(char **tab, char *path)
 	{
 		tmp = ft_strjoin(path, tab[i]);
 		lstat(tmp, &s);
-		if (opts.a == FALSE)
+		if (opts->a != TRUE)
 		{
 			while (tab[i][0] == '.')
 				i++;

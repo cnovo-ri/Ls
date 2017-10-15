@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/13 21:40:36 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/15 02:27:09 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,84 +25,92 @@ static char		*get_path(int argc, char *args)
 	return (tmp);
 }
 
-static char		**stock_args(int argc, char **argv)
+static t_var	*init_vars(t_var *var, int argc)
 {
-//	DIR		*dir;
-	char	**tmp;
-	int		i;
-	int		j;
-//	int		k;
-
-	i = 0;
-	j = 0;
-//	k = 0;
-	if (!(tmp = (char **)malloc(sizeof(char *) * argc + 1)))
+	if (!(var->tmp = (char **)malloc(sizeof(char *) * argc + 1)))
 		return (NULL);
-	while (i < argc && argc > 1)
+	if (!(var->error_tab = (char **)malloc(sizeof(char *) * argc + 1)))
+		return (NULL);
+	var->i = 0;
+	var->j = 0;
+	var->k = 0;
+	var->dir = 0;
+	var->error = 0;
+
+	return (var);
+}
+
+static char		**stock_args(int argc, char **argv, char **files)
+{
+	t_var	*var;
+
+	if (!(var = (t_var *)malloc(sizeof(t_var))))
+		return (NULL);
+	var = init_vars(var, argc);
+	while (var->i < argc && argc > 1)
 	{
-		if (argv[i][0] != '-' && ft_strcmp(argv[i], "./ft_ls") != 0 &&
-			is_directory(argv[i]) == TRUE)
-			tmp[j++] = argv[i];
-		i++;
+		if (argv[var->i][0] != '-' && ft_strcmp(argv[var->i], "./ft_ls") != 0 &&
+			is_directory(argv[var->i]) == TRUE)
+			var->tmp[var->j++] = argv[var->i];
+		else if (lstat(argv[var->i], &var->s) == -1 && argv[var->i][0] != '-')
+			var->error++;
+		var->i++;
 	}
 	if (argc == 1)
-		tmp[j++] = argv[i];
-	if (argc > 1 && argv[i - 1][0] == '-' && j == 0)
-		tmp[j++] = ".";
-	tmp[j] = NULL;
-	bubble_sort(tmp);
-	return (tmp);
+		var->tmp[var->j++] = argv[var->i];
+	if (var->j == 0 && ft_strcmp(files[0], ".") == 0 && var->error == 0)
+		var->tmp[var->j++] = ".";
+	var->tmp[var->j] = NULL;
+	bubble_sort(var->tmp);
+	return (var->tmp);
 }
 
 static char		**stock_files(int argc, char **argv)
 {
-	struct stat	s;
-	//	DIR		*dir;
-	char	**tmp;
-	char	**error_tab;
-	int		error;
-	int		i;
-	int		j;
-	int		k;
+	t_var	*var;
 
-	i = 0;
-	j = 0;
-	k = 0;
-	error = 0;
-	if (!(tmp = (char **)malloc(sizeof(char *) * argc + 1)))
+	if (!(var = (t_var *)malloc(sizeof(t_var))))
 		return (NULL);
-	if (!(error_tab = (char **)malloc(sizeof(char *) * argc + 1)))
-		return (NULL);
-	while (i < argc && argc > 1)
+	var = init_vars(var, argc);
+	while (var->i < argc && argc > 1)
 	{
-		if (argv[i][0] != '-' && ft_strcmp(argv[i], "./ft_ls") != 0 &&
-			is_directory(argv[i]) != TRUE && lstat(argv[i], &s) != -1)
+		if (argv[var->i][0] != '-' && ft_strcmp(argv[var->i], "./ft_ls") != 0
+			&& is_directory(argv[var->i]) != TRUE &&
+			lstat(argv[var->i], &var->s) != -1)
+			var->tmp[var->j++] = argv[var->i];
+		if (is_directory(argv[var->i]) == TRUE)
+			var->dir = 1;
+		if (var->j > 0 || (var->j == 0 && var->dir == 1))
 		{
-			tmp[j++] = argv[i];
-			error = 1;
+			if ((lstat(argv[var->i], &var->s) == -1 &&
+				ft_strcmp(argv[var->i], "./ft_ls") != 0) ||
+					(argv[var->i][0] == '-'))
+				var->error_tab[var->k++] = argv[var->i];
 		}
-		if (j > 0)
-			if (lstat(argv[i], &s) == -1 && ft_strcmp(argv[i], "./ft_ls") != 0)
-				error_tab[k++] = argv[i];
-		i++;
+		else
+			if (lstat(argv[var->i], &var->s) == -1 && argv[var->i][0] != '-' &&
+				ft_strcmp(argv[var->i], "./ft_ls") != 0)
+				var->error_tab[var->k++] = argv[var->i];
+		var->i++;
 	}
-	error_tab[k] = NULL;
-	bubble_sort(error_tab);
-	k = 0;
-	while (error_tab[k])
-		set_perror(error_tab[k++]);
+	var->error_tab[var->k] = NULL;
+	bubble_sort(var->error_tab);
+	var->k = 0;
+	while (var->error_tab[var->k])
+		set_perror(var->error_tab[var->k++]);
 	if (argc == 1)
-		tmp[j++] = argv[i];
-	if (argc > 1 && argv[i - 1][0] == '-')
-		tmp[j++] = ".";
-	tmp[j] = NULL;
-	free(error_tab);
-	bubble_sort(tmp);
-	return (tmp);
+		var->tmp[var->j++] = argv[var->i];
+	if (var->j == 0)
+		var->tmp[var->j++] = ".";
+	var->tmp[var->j] = NULL;
+	free(var->error_tab);
+	bubble_sort(var->tmp);
+	return (var->tmp);
 }
 
 int			main(int argc, char **argv)
 {
+	t_var		*var;
 	t_opts		*opts;
 	char		**tab;
 	char		*path;
@@ -112,10 +120,14 @@ int			main(int argc, char **argv)
 	int			j;
 
 	j = 0;
+	if (!(var = (t_var *)malloc(sizeof(t_var))))
+		return (0);
 	opts = parsing(argc, argv);
-	args = stock_args(argc, argv);
 	files = stock_files(argc, argv);
-//	printf(YELLOW"argc :%d\n"NORMAL, argc);
+	free(var->tmp);
+	args = stock_args(argc, argv, files);
+	free(var->error_tab);
+	//	printf(YELLOW"argc :%d\n"NORMAL, argc);
 	if (opts->t == TRUE)
 		args = timer(args);
 	if (opts->r == TRUE)
@@ -132,7 +144,7 @@ int			main(int argc, char **argv)
 		j++;
 	}
 	j = 0;
-*/	if (files)
+*/	if (ft_strcmp(files[0], ".") != 0)
 	{
 		i = 0;
 		path = "./";
@@ -159,7 +171,7 @@ int			main(int argc, char **argv)
 			i++;
 		}
 	}
-	if (tablen(args) > 0 && tablen(files) > 0)
+	if (tablen(args) > 0 && tablen(files) > 0 && ft_strcmp(files[0], ".") != 0)
 		ft_putchar('\n');
 	opts->file_tab = FALSE;
 	while (args[j])
@@ -169,7 +181,8 @@ int			main(int argc, char **argv)
 		path = get_path(argc, args[j]);
 		if (j >= 1)
 			ft_putstr("\n");
-		if (tablen(args) > 1 || (tablen(args) == 1 && tablen(files) > 0))
+		if (tablen(args) > 1 || (tablen(args) == 1 && tablen(files) > 0 &&
+			ft_strcmp(files[0], ".") != 0))
 			ft_putstr(ft_strjoin(args[j],":\n"));
 //		printf(GREEN"\npath :%s\n\n"NORMAL, path);
 		tab = stock_directory(path);
@@ -179,7 +192,7 @@ int			main(int argc, char **argv)
 		//tab = real_sort(tab);
 /*		if (ft_strcmp(path, "/dev/") == 0)
 			bubble_sort(tab);
-*/		if (opts->a == FALSE)
+*/		if (opts->a != TRUE)
 		{
 			if (opts->almost == TRUE)
 				tab = almost_all(tab);
@@ -202,5 +215,6 @@ int			main(int argc, char **argv)
 		}
 		j++;
 	}
+	free(var);
 	return (0);
 }
