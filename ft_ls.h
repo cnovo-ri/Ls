@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:26 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/16 00:30:21 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/17 05:16:10 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct		s_timer
 {
 	struct stat	s;
 	struct stat	s_2;
+	char		*tmp;
+	char		*tmp_2;
 	int			i;
 	int			j;
 	t_bool		permu;
@@ -96,7 +98,7 @@ char				**stock_tabs(t_sort *sort, char **dot, char **up,
 char				**stock_lower(char **tab);
 char				**stock_upper(char **tab);
 char				**stock_dot(char **tab);
-char				**press_r(char **tab, char *path);
+char				**press_r(char **tab, int argc);
 t_bool				is_directory(char *str);
 char				**do_reverse(char **tab);
 char				**counter_a(char **tab);

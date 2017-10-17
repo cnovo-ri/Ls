@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 19:41:45 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/16 01:23:14 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/17 04:21:02 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void		print_l1(char **tab, char *path, t_opts *opts,
 		if (lstat(l.str, s) == -1 && opts->file_tab == TRUE)
 			l.str = tab[l.i];
 		if (lstat(l.str, s) == -1)
-			if ((fstat(1, s) == -1) && ft_strcmp(path, "/dev/fd") == 0)
+			if (fstat(1, s) == -1 && ft_strcmp(path, "/dev/fd") == 0)
 				set_perror(l.str);
 		l.tmp[l.i] = catch_rights(s, ft_strjoin(path, tab[l.i]));
 		ft_putstr(ft_strjoin(l.tmp[l.i], " "));

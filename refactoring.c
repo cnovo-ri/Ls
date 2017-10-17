@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/16 01:38:22 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/17 06:06:09 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int				main(int argc, char **argv)
 		args = timer(args, path);
 	if (opts->r == TRUE)
 		args = do_reverse(args);
-/*	while (args[j])
+	while (args[j])
 	{
 		printf(CYAN"args[%d] : %s\n"NORMAL, j, args[j]);
 		j++;
@@ -77,7 +77,7 @@ int				main(int argc, char **argv)
 		j++;
 	}
 	j = 0;
-*/	if (ft_strcmp(files[0], ".") != 0)
+	if (ft_strcmp(files[0], ".") != 0)
 	{
 		i = 0;
 		path = "./";
@@ -96,18 +96,16 @@ int				main(int argc, char **argv)
 			ft_putstr("\n");
 		if (tablen(args) > 1 || (tablen(args) == 1 && tablen(files) > 0 &&
 			ft_strcmp(files[0], ".") != 0))
-			ft_putstr(ft_strjoin(args[j],":\n"));
+			ft_putendl(args[j]);
 //		printf(GREEN"\npath :%s\n\n"NORMAL, path);
 		tab = stock_directory(path);
 		if (opts->recursive == TRUE)
-			tab = press_r(tab, path);
-		ft_putendl(BLUE"NOT TAB"NORMAL);
-		bubble_sort(tab);
-		//tab = real_sort(tab);
-/*		if (ft_strcmp(path, "/dev/") == 0)
+			tab = press_r(args, argc);
+		if (tab != NULL)
+		{
 			bubble_sort(tab);
-*/		if (tab != NULL)
 			do_opts(opts, tab, path);
+		}
 		j++;
 	}
 	free(var);

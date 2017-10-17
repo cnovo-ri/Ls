@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:47 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/15 22:25:25 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/17 04:30:14 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,21 @@ void		str_swap(char **str, char **str2)
 
 static void	timer_2(t_timer *tim, char **tab, char *path)
 {
-	char	*tmp;
-	char	*tmp_2;
-
 	while (tim->j < (tablen(tab) - tim->i))
 	{
-		tmp = ft_strjoin(path, tab[tim->j]);
-		tmp_2 = ft_strjoin(path, tab[tim->j + 1]);
-		lstat(tmp, &(tim->s));
-		lstat(tmp_2, &(tim->s_2));
+		tim->tmp = is_directory(tab[tim->j]) ? tab[tim->j] :
+			ft_strjoin(path, tab[tim->j]);
+		tim->tmp_2 = is_directory(tab[tim->j]) ? tab[tim->j + 1] :
+			ft_strjoin(path, tab[tim->j + 1]);
+		lstat(tim->tmp, &(tim->s));
+		lstat(tim->tmp_2, &(tim->s_2));
 		if (tim->s.st_mtime > tim->s_2.st_mtime)
 		{
 			tim->permu = TRUE;
 			str_swap(&tab[tim->j], &tab[tim->j + 1]);
 		}
-		if (tim->s.st_mtime == tim->s_2.st_mtime && tmp_2 &&
-			ft_strcmp(tmp, tmp_2) < 0)
+		if (tim->s.st_mtime == tim->s_2.st_mtime && tim->tmp_2 &&
+			ft_strcmp(tim->tmp, tim->tmp_2) < 0)
 		{
 			tim->permu = TRUE;
 			str_swap(&tab[tim->j], &tab[tim->j + 1]);
