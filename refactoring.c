@@ -6,37 +6,40 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/17 06:06:09 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/18 08:04:15 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		do_opts(t_opts *opts, char **tab, char *path)
+void		do_opts(t_opts *opts, char **tab, char *path)
 {
 	int		i;
 
 	i = 0;
-	if (opts->a != TRUE)
+	if (tab)
 	{
-		if (opts->almost == TRUE)
-			tab = almost_all(tab);
-		else
-			tab = counter_a(tab);
-	}
-	if (opts->t == TRUE)
-		tab = timer(tab, path);
-	if (opts->r == TRUE)
-		tab = do_reverse(tab);
-	if (opts->l == TRUE && opts->m != TRUE && opts->one != TRUE)
-		do_l(tab, path, opts);
-	while (tab[i])
-	{
-		if (opts->m == TRUE)
-			do_m(tab, tab[i], i);
-		else if (opts->l == FALSE || opts->one == TRUE)
-			ft_putendl(tab[i]);
-		i++;
+		if (opts->a != TRUE)
+		{
+			if (opts->almost == TRUE)
+				tab = almost_all(tab);
+			else
+				tab = counter_a(tab);
+		}
+		if (opts->t == TRUE)
+			tab = timer(tab, path);
+		if (opts->r == TRUE)
+			tab = do_reverse(tab);
+		if (opts->l == TRUE && opts->m != TRUE && opts->one != TRUE)
+			do_l(tab, path, opts);
+		while (tab[i])
+		{
+			if (opts->m == TRUE)
+				do_m(tab, tab[i], i);
+			else if (opts->l == FALSE || opts->one == TRUE)
+				ft_putendl(tab[i]);
+			i++;
+		}
 	}
 }
 
@@ -97,10 +100,10 @@ int				main(int argc, char **argv)
 		if (tablen(args) > 1 || (tablen(args) == 1 && tablen(files) > 0 &&
 			ft_strcmp(files[0], ".") != 0))
 			ft_putendl(args[j]);
-//		printf(GREEN"\npath :%s\n\n"NORMAL, path);
+		printf(GREEN"\npath :%s\n\n"NORMAL, path);
 		tab = stock_directory(path);
 		if (opts->recursive == TRUE)
-			tab = press_r(args, argc);
+			press_r(tab, argc, path, opts);
 		if (tab != NULL)
 		{
 			bubble_sort(tab);

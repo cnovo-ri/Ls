@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:26 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/17 05:16:10 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/18 06:38:31 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct		s_sort
 	int		total;
 }					t_sort;
 
+void				do_opts(t_opts *opts, char **tab, char *path);
 char				**stock_args(int argc, char **argv, char **files);
 char				**stock_files(int argc, char **argv);
 char				*get_path(int argc, char *args);
@@ -98,7 +99,7 @@ char				**stock_tabs(t_sort *sort, char **dot, char **up,
 char				**stock_lower(char **tab);
 char				**stock_upper(char **tab);
 char				**stock_dot(char **tab);
-char				**press_r(char **tab, int argc);
+void				press_r(char **tab, int argc, char *path, t_opts *opts);
 t_bool				is_directory(char *str);
 char				**do_reverse(char **tab);
 char				**counter_a(char **tab);

@@ -6,28 +6,63 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/16 00:06:46 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/17 06:06:57 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/18 08:17:14 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-char			**press_r(char **args, int argc)
+void			press_r(char **tab, int argc, char *path, t_opts *opts)
 {
 	int		i;
-	int		k;
 	char	**tmp;
-	char	*real_path;
-
+	char	*str;
+	char	*tmp_2;
+	
 	i = 0;
-	k = 0;
-	while (args[i])
+	tmp = NULL;
+	tmp_2 = NULL;
+	while (tab[i])
 	{
-		real_path = get_path(argc, args[i]);
-		printf (PURPLE"real_path : %s\n"NORMAL, real_path);
-		if (is_directory(real_path) == TRUE && args[i][0] != '.')
-			tmp = stock_directory(real_path);
+		path = get_path(argc, path);
+		if (opts->a == TRUE)
+		{
+			if (is_directory(ft_strjoin(path, tab[i])) == TRUE &&
+				(ft_strcmp(tab[i], ".") != 0) && (ft_strcmp(tab[i], "..") != 0))
+			{
+				str = ft_strjoin(path, get_path(argc, tab[i]));
+				printf(RED"tab[%d] : %s\n"NORMAL, i, tab[i]);
+				printf("directory path : %s\n", str);
+				tmp = stock_directory(str);
+				bubble_sort(tmp);
+				do_opts(opts, tmp, path);
+				press_r(tmp, argc, str, opts);
+			}
+		}
+		else
+		{
+			while (tab[i][0] == '.')
+			{
+				if (!(tab[i + 1]))
+				{
+					i++;
+					return ;
+				}
+				i++;
+			}
+			if (is_directory(ft_strjoin(path, tab[i])) == TRUE)
+			{
+				str = ft_strjoin(path, get_path(argc, tab[i]));
+				printf(PURPLE"tab[%d] : %s\n"NORMAL, i, tab[i]);
+				printf("directory path : %s\n", str);
+				tmp = stock_directory(str);
+				bubble_sort(tmp);
+				do_opts(opts, tmp, path);
+				press_r(tmp, argc, str, opts);
+			}
+		}
 		i++;
 	}
-	return (tmp);
+	ft_putchar('\n');
+	return ;
 }
