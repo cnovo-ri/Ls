@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/19 04:46:23 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/20 05:05:41 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		do_opts(t_opts *opts, char **tab, char *path)
 	int		i;
 
 	i = 0;
-	if (opts->a != TRUE)
+	if (opts->a != TRUE && opts->file_tab != TRUE)
 	{
 		if (opts->almost == TRUE)
 			tab = almost_all(tab);
@@ -71,13 +71,13 @@ int				main(int argc, char **argv)
 		j++;
 	}
 	j = 0;
-	while (files[j])
+*/	while (files[j])
 	{
 		printf(YELLOW"files[%d] : %s\n"NORMAL, j, files[j]);
 		j++;
 	}
 	j = 0;
-*/	if (ft_strcmp(files[0], ".") != 0)
+	if (ft_strcmp(files[0], ".") != 0)
 	{
 		i = 0;
 		path = "./";
@@ -103,7 +103,8 @@ int				main(int argc, char **argv)
 			press_r(tab, argc, path, opts);
 		if (tab != NULL && opts->recursive != TRUE)
 		{
-			tab = real_sort(tab);
+			insertion_sort(tab);
+		//	tab = real_sort(tab);
 		//	bubble_sort(tab);
 			do_opts(opts, tab, path);
 		}

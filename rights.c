@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/15 23:01:15 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/19 04:18:44 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/20 03:25:26 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ char		*catch_rights(struct stat *s, char *str)
 	i = 0;
 	if (!(tmp = (char *)malloc(sizeof(char) * 12)))
 		return (NULL);
+//	printf("str : %s\n", str);
 	tmp[i] = first_right(s, tmp[i]);
 	i++;
 	tmp[i] = (S_IRUSR & s->st_mode) ? 'r' : '-';

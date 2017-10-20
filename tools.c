@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:53 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/19 00:42:50 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/20 02:22:00 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,27 @@ void		bubble_sort(char **tab)
 			}
 			j++;
 		}
+	}
+}
+
+void		insertion_sort(char **tab)
+{
+	int		i;
+	int		j;
+	char	*current;
+
+	i = 1;
+	while (i < tablen(tab))
+	{
+		current = tab[i];
+		j = i;
+		while (j > 0 && ft_strcmp(tab[j - 1], current) > 0)
+		{
+			tab[j] = tab[j - 1];
+			j--;
+		}
+		tab[j] = current;
+		i++;
 	}
 }
 

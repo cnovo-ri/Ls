@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 19:41:45 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/17 04:21:02 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/20 03:37:57 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ static void		print_l2(struct stat *s, char *tab, char *path, char *ptr)
 		ft_putendl(tab);
 }
 
-static void		print_l1(char **tab, char *path, t_opts *opts,
-		struct stat *s)
+static void		print_l1(char **tab, char *path, t_opts *opts, struct stat *s)
 {
 	t_long	l;
 

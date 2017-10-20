@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:26 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/19 05:39:31 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/20 04:53:59 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct		s_sort
 	char	**last;
 }					t_sort;
 
+void				insertion_sort(char **tab);
 void				do_opts(t_opts *opts, char **tab, char *path);
 char				**stock_args(int argc, char **argv, char **files);
 char				**stock_files(int argc, char **argv);

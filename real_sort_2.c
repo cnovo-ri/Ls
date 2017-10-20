@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 05:34:53 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/19 05:38:00 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/19 23:53:10 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char			**stock_upper(char **tab)
 		i++;
 	}
 	tmp[j] = NULL;
-	bubble_sort(tmp);
+	bubble_sort(tab);
 	return (tmp);
 }
 
@@ -60,6 +60,7 @@ char			**stock_lower(char **tab)
 		i++;
 	}
 	tmp[j] = NULL;
+	bubble_sort(tab);
 	return (tmp);
 }
 
@@ -85,6 +86,7 @@ char		**last_ft(char **tab)
 		i++;
 	}
 	tmp[j] = NULL;
+	bubble_sort(tab);
 	return (tmp);
 }
 
@@ -110,5 +112,6 @@ char		**after_upper(char **tab)
 		i++;
 	}
 	tmp[j] = NULL;
+	bubble_sort(tab);
 	return (tmp);
 }

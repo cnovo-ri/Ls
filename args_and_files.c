@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/16 00:27:11 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/19 01:08:59 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/20 04:54:34 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ char			*get_path(int argc, char *args)
 {
 	char		*tmp;
 
-	if (argc != 1 && args[ft_strlen(args) - 1] != '/' && is_directory(args) == TRUE)
+	if (argc != 1 && args[ft_strlen(args) - 1] != '/' &&
+		is_directory(args) == TRUE)
 		tmp = ft_strdup(ft_strjoin(args, "/"));
 	else
 		tmp = ft_strdup(args);
