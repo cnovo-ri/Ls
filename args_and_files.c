@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/16 00:27:11 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/20 04:54:34 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/23 19:06:58 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ char			**stock_args(int argc, char **argv, char **files)
 		var->tmp[var->j++] = ".";
 	var->tmp[var->j] = NULL;
 	insertion_sort(var->tmp);
-//	bubble_sort(var->tmp);
 	return (var->tmp);
 }
 
@@ -77,11 +76,11 @@ static void		stock_files_2(int argc, char **argv, t_var *var)
 			var->tmp[var->j++] = argv[var->i];
 		if (is_directory(argv[var->i]) == TRUE)
 			var->dir = 1;
-		if (var->j > 0 || (var->j == 0 && var->dir == 1))
+		if (var->j > 0 || (var->j == 0 && (var->dir == 1 || var->error_tab[0])))
 		{
 			if ((lstat(argv[var->i], &var->s) == -1 &&
 				ft_strcmp(argv[var->i], "./ft_ls") != 0) ||
-					(argv[var->i][0] == '-'))
+				(argv[var->i][0] == '-'))
 				var->error_tab[var->k++] = argv[var->i];
 		}
 		else
@@ -92,30 +91,18 @@ static void		stock_files_2(int argc, char **argv, t_var *var)
 	}
 }
 
-char			**stock_files(int argc, char **argv)
+char			**stock_files(int argc, char **argv, t_var *var)
 {
-	t_var	*var;
-
-	if (!(var = (t_var *)malloc(sizeof(t_var))))
-		return (NULL);
 	var = init_vars(var, argc);
 	stock_files_2(argc, argv, var);
 	var->error_tab[var->k] = NULL;
 	insertion_sort(var->error_tab);
-//	bubble_sort(var->error_tab);
-	printf("stock_files j : %d\n", var->j);
 	var->k = 0;
 	while (var->error_tab[var->k])
 		set_perror(var->error_tab[var->k++]);
-/*	if (argc == 1)
-		var->tmp[var->j++] = argv[var->i];
-*/	if (var->j == 0 || argc == 1 || (argc == 1 && var->j == 1))
+	if (var->j == 0 || argc == 1 || (argc == 1 && var->j == 1))
 		var->tmp[var->j++] = ".";
-/*	if (argc == 1 && var->j == 1)
-		var->tmp[var->j++] = ".";
-*/	var->tmp[var->j] = NULL;
-	free(var->error_tab);
+	var->tmp[var->j] = NULL;
 	insertion_sort(var->tmp);
-	//bubble_sort(var->tmp);
 	return (var->tmp);
 }

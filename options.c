@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:47 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/20 02:24:27 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/23 17:20:09 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void		str_swap(char **str, char **str2)
 	*str = *str2;
 	*str2 = tmp;
 }
-/*
+
 static void	timer_2(t_timer *tim, char **tab, char *path)
 {
 	tim->i = 0;
@@ -128,7 +128,7 @@ char		**timer(char **tab, char *path)
 	timer_2(&tim, tab, path);
 	tab = do_reverse(tab);
 	return (tab);
-}*/
+}/*
 static void	timer_2(t_timer *tim, char **tab, char *path)
 {
 	while (tim->j < (tablen(tab) - tim->i))
@@ -168,7 +168,7 @@ char		**timer(char **tab, char *path)
 		timer_2(&tim, tab, path);
 	}
 	tab = do_reverse(tab);
-/*	tim.i = 0;
+	tim.i = 0;
 	while (tab[tim.i])
 	{
 		tim.tmp = is_directory(tab[tim.i]) ? tab[tim.i] :
@@ -178,5 +178,5 @@ char		**timer(char **tab, char *path)
 		ft_putchar('\n');
 		tim.i++;
 	}
-*/	return (tab);
-}
+	return (tab);
+}*/

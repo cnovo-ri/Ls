@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/20 05:05:41 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/23 20:17:34 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,8 @@ int				main(int argc, char **argv)
 	if (!(var = (t_var *)malloc(sizeof(t_var))))
 		return (0);
 	opts = parsing(argc, argv);
-	files = stock_files(argc, argv);
-	free(var->tmp);
+	files = stock_files(argc, argv, var);
 	args = stock_args(argc, argv, files);
-	free(var->error_tab);
 	//	printf(YELLOW"argc :%d\n"NORMAL, argc);
 	path = NULL;
 	if (opts->t == TRUE)
@@ -95,8 +93,10 @@ int				main(int argc, char **argv)
 		if (j >= 1)
 			ft_putstr("\n");
 		if (tablen(args) > 1 || (tablen(args) == 1 && tablen(files) > 0 &&
-			ft_strcmp(files[0], ".") != 0))
+			ft_strcmp(files[0], ".") != 0) || var->k > 0)
 			ft_putendl(ft_strjoin(args[j], ":"));
+		if (ft_strcmp(args[j], ".") == 0)
+			opts->args_dot = TRUE;
 //		printf(GREEN"\npath :%s\n\n"NORMAL, path);
 		tab = stock_directory(path);
 		if (opts->recursive == TRUE)
