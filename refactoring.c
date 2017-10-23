@@ -65,13 +65,13 @@ int				main(int argc, char **argv)
 		args = timer(args, path);
 	if (opts->r == TRUE)
 		args = do_reverse(args);
-/*	while (args[j])
+	while (args[j])
 	{
 		printf(CYAN"args[%d] : %s\n"NORMAL, j, args[j]);
 		j++;
 	}
 	j = 0;
-*/	while (files[j])
+	while (files[j])
 	{
 		printf(YELLOW"files[%d] : %s\n"NORMAL, j, files[j]);
 		j++;

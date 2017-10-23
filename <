@@ -22,7 +22,7 @@ char			*get_path(int argc, char *args)
 	else
 		tmp = ft_strdup(args);
 	if (ft_strcmp(args, "./ft_ls") == 0)
-		tmp = ".";
+		tmp = "./";
 	return (tmp);
 }
 
@@ -107,13 +107,11 @@ char			**stock_files(int argc, char **argv)
 	var->k = 0;
 	while (var->error_tab[var->k])
 		set_perror(var->error_tab[var->k++]);
-/*	if (argc == 1)
+	if (argc == 1)
 		var->tmp[var->j++] = argv[var->i];
-*/	if (var->j == 0 || argc == 1 || (argc == 1 && var->j == 1))
+	if (var->j == 1)
 		var->tmp[var->j++] = ".";
-/*	if (argc == 1 && var->j == 1)
-		var->tmp[var->j++] = ".";
-*/	var->tmp[var->j] = NULL;
+	var->tmp[var->j] = NULL;
 	free(var->error_tab);
 	insertion_sort(var->tmp);
 	//bubble_sort(var->tmp);

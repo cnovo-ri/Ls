@@ -72,6 +72,7 @@ static void		print_l1(char **tab, char *path, t_opts *opts, struct stat *s)
 		l.i++;
 	}
 	free(l.tmp);
+	free(l.ptr);
 }
 
 void			do_l(char **tab, char *path, t_opts *opts)

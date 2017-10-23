@@ -66,6 +66,42 @@ void		str_swap(char **str, char **str2)
 	*str2 = tmp;
 }
 /*
+static void	timer_2(t_timer *tim, char **tab, char *path)
+{
+	tim->i = 0;
+	tim->permu = TRUE;
+	while (tim->permu)
+	{
+		tim->permu = FALSE;
+		tim->i++;
+		tim->j = 0;
+		while (tim->j < (tablen(tab) - tim->i))
+		{
+			tim->tmp = is_directory(tab[tim->j]) ? tab[tim->j] :
+				ft_strjoin(path, tab[tim->j]);
+			tim->tmp_2 = is_directory(tab[tim->j]) ? tab[tim->j + 1] :
+				ft_strjoin(path, tab[tim->j + 1]);
+			lstat(tim->tmp, &(tim->s));
+			lstat(tim->tmp_2, &(tim->s_2));
+			if (tim->s.st_mtime == tim->s_2.st_mtime && tim->tmp_2 &&
+				ft_strcmp(tim->tmp, tim->tmp_2) < 0)
+			{
+				tim->permu = TRUE;
+				str_swap(&tab[tim->j], &tab[tim->j + 1]);
+			}
+			tim->j++;
+		}
+	}
+}
+
+static void	do_lstat(t_timer *tim, char **tab, char *path)
+{
+	lstat(tim->tmp, &(tim->s));
+	tim->tmp_2 = is_directory(tab[tim->j - 1]) ? tab[tim->j - 1] :
+		ft_strjoin(path, tab[tim->j - 1]);
+	lstat(tim->tmp_2, &(tim->s_2));
+}
+
 char		**timer(char **tab, char *path)
 {
 	t_timer		tim;
@@ -74,26 +110,25 @@ char		**timer(char **tab, char *path)
 	tim.i = 1;
 	while (tim.i < tablen(tab))
 	{
-		tim.tmp = is_directory(tab[tim.i]) ? tab[tim.i] :
-			ft_strjoin(path, tab[tim.i]);
-		tim.tmp_2 = is_directory(tab[tim.i]) ? tab[tim.j - 1] :
-			ft_strjoin(path, tab[tim.j - 1]);
-		lstat(tim.tmp, &(tim.s));
-		lstat(tim.tmp_2, &(tim.s_2));
 		current = tab[tim.i];
 		tim.j = tim.i;
+		tim.tmp = is_directory(current) ? current :
+			ft_strjoin(path, current);
+		do_lstat(&tim, tab, path);
 		while (tim.j > 0 && tim.s_2.st_mtime > tim.s.st_mtime)
 		{
 			tab[tim.j] = tab[tim.j - 1];
 			tim.j--;
+			if (tim.j > 0)
+				do_lstat(&tim, tab, path);
 		}
 		tab[tim.j] = current;
 		tim.i++;
 	}
+	timer_2(&tim, tab, path);
 	tab = do_reverse(tab);
 	return (tab);
-}
-*/
+}*/
 static void	timer_2(t_timer *tim, char **tab, char *path)
 {
 	while (tim->j < (tablen(tab) - tim->i))
@@ -133,5 +168,15 @@ char		**timer(char **tab, char *path)
 		timer_2(&tim, tab, path);
 	}
 	tab = do_reverse(tab);
-	return (tab);
+/*	tim.i = 0;
+	while (tab[tim.i])
+	{
+		tim.tmp = is_directory(tab[tim.i]) ? tab[tim.i] :
+			ft_strjoin(path, tab[tim.i]);
+		lstat(tim.tmp, &(tim.s));
+		ft_putnbr(tim.s.st_mtime);
+		ft_putchar('\n');
+		tim.i++;
+	}
+*/	return (tab);
 }

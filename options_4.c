@@ -19,12 +19,13 @@ static void		press_r_2(char *tab, int argc, char *path, t_opts *opts)
 
 	str = ft_strjoin(path, get_path(argc, tab));
 	ft_putchar('\n');
+	ft_putendl(path);
 	if (str[ft_strlen(str) - 1] == '/')
 		ft_putstr(ft_strsub(str, 0, ft_strlen(str) - 1));
 	else
 	{
-		str = ft_strjoin(str, "/");
-		ft_putstr(ft_strsub(str, 0, ft_strlen(str) - 1));
+//		str = ft_strjoin(str, "/");
+//		ft_putstr(ft_strsub(str, 0, ft_strlen(str)));
 	}
 	ft_putstr(":\n");
 //	printf(RED"tab[%d] : %s\n"NORMAL, i, tab[i]);
@@ -72,14 +73,15 @@ void			press_r(char **tab, int argc, char *path, t_opts *opts)
 	int			i;
 
 	i = 0;
-	tab = real_sort(tab);
+	insertion_sort(tab);
+	//tab = real_sort(tab);
 	flag = fix_flag(flag, tab, path, opts);
 //	printf("path : %s\n", path);
 	while (tab && tab[i])
 	{
-		if (flag == 0)
+/*		if (flag == 0)
 			path = ft_strjoin(path, "/");
-		flag = 1;
+*/		flag = 1;
 		if (path[ft_strlen(path) - 1] != '/')
 			path = get_path(argc, path);
 		if (opts->a == TRUE)
