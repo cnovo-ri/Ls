@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/16 00:06:46 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/23 20:13:47 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/24 06:35:08 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ static void		press_r_2(char *tab, int argc, char *path, t_opts *opts)
 
 	str = ft_strjoin(path, get_path(argc, tab));
 	ft_putchar('\n');
+	if (ft_strncmp(str, "//", 2) == 0)
+		str = ft_strsub(str, 1, ft_strlen(str));
 	if (str[ft_strlen(str) - 1] == '/')
 		ft_putstr(ft_strsub(str, 0, ft_strlen(str) - 1));
 	else
 	{
 		str = ft_strjoin(str, "/");
-		ft_putstr(str);
+		ft_putstr(ft_strsub(str, 0, ft_strlen(str) - 1));
 	}
 	ft_putstr(":\n");
 	tmp = stock_directory(str);
@@ -52,7 +54,6 @@ static int		run_tab(char **tab, int i)
 
 static	int		fix_flag(int flag, char **tab, char *path, t_opts *opts)
 {
-//	insertion_sort(tab);
 	if (flag == 0)
 		do_opts(opts, tab, path);
 	return (flag);
@@ -71,7 +72,6 @@ void			press_r(char **tab, int argc, char *path, t_opts *opts)
 	int			i;
 
 	i = 0;
-//	insertion_sort(tab);
 	flag = fix_flag(flag, tab, path, opts);
 	while (tab && tab[i])
 	{

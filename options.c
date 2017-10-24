@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:47 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/23 17:20:09 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/24 05:39:06 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,17 @@ static void	timer_2(t_timer *tim, char **tab, char *path)
 		tim->j = 0;
 		while (tim->j < (tablen(tab) - tim->i))
 		{
-			tim->tmp = is_directory(tab[tim->j]) ? tab[tim->j] :
-				ft_strjoin(path, tab[tim->j]);
-			tim->tmp_2 = is_directory(tab[tim->j]) ? tab[tim->j + 1] :
-				ft_strjoin(path, tab[tim->j + 1]);
+			tim->tmp =/* (is_directory(tab[tim->j]) &&
+				ft_strcmp(tab[tim->j], "..") != 0 &&
+				ft_strcmp(tab[tim->j], ".") != 0) ? tab[tim->j] :
+			*/	ft_strjoin(path, tab[tim->j]);
+			tim->tmp_2 =/* (is_directory(tab[tim->j + 1]) &&
+				ft_strcmp(tab[tim->j + 1], "..") != 0
+				&& ft_strcmp(tab[tim->j + 1], ".") != 0)  ? tab[tim->j + 1] :
+			*/	ft_strjoin(path, tab[tim->j + 1]);
 			lstat(tim->tmp, &(tim->s));
 			lstat(tim->tmp_2, &(tim->s_2));
+//			printf("path : %s --- tmp : %s --- tmp_2 : %s\n", path, tim->tmp, tim->tmp_2);
 			if (tim->s.st_mtime == tim->s_2.st_mtime && tim->tmp_2 &&
 				ft_strcmp(tim->tmp, tim->tmp_2) < 0)
 			{
@@ -96,8 +101,9 @@ static void	timer_2(t_timer *tim, char **tab, char *path)
 
 static void	do_lstat(t_timer *tim, char **tab, char *path)
 {
-	lstat(tim->tmp, &(tim->s));
-	tim->tmp_2 = is_directory(tab[tim->j - 1]) ? tab[tim->j - 1] :
+//	lstat(tim->tmp, &(tim->s));
+	tim->tmp_2 = /*(is_directory(tab[tim->j - 1]) && ft_strcmp(tab[tim->j - 1], "..") != 0
+		&& ft_strcmp(tab[tim->j - 1], ".") != 0) ? tab[tim->j - 1] :*/
 		ft_strjoin(path, tab[tim->j - 1]);
 	lstat(tim->tmp_2, &(tim->s_2));
 }
@@ -112,9 +118,11 @@ char		**timer(char **tab, char *path)
 	{
 		current = tab[tim.i];
 		tim.j = tim.i;
-		tim.tmp = is_directory(current) ? current :
-			ft_strjoin(path, current);
+		tim.tmp = /*(is_directory(current) && ft_strcmp(current, "..") != 0 &&
+			ft_strcmp(current, ".") != 0 ) ? current :*/ ft_strjoin(path, current);
+		lstat(tim.tmp, &(tim.s));
 		do_lstat(&tim, tab, path);
+//		printf("path : %s --- tmp : %s --- tmp_2 : %s\n", path, tim.tmp, tim.tmp_2);
 		while (tim.j > 0 && tim.s_2.st_mtime > tim.s.st_mtime)
 		{
 			tab[tim.j] = tab[tim.j - 1];
@@ -128,14 +136,17 @@ char		**timer(char **tab, char *path)
 	timer_2(&tim, tab, path);
 	tab = do_reverse(tab);
 	return (tab);
-}/*
+}
+/*
 static void	timer_2(t_timer *tim, char **tab, char *path)
 {
 	while (tim->j < (tablen(tab) - tim->i))
 	{
-		tim->tmp = is_directory(tab[tim->j]) ? tab[tim->j] :
+		tim->tmp = is_directory(tab[tim->j]) && ft_strcmp(tab[tim->j], "..") != 0 &&
+			ft_strcmp(tab[tim->j], ".") != 0 ? tab[tim->j] :
 			ft_strjoin(path, tab[tim->j]);
-		tim->tmp_2 = is_directory(tab[tim->j]) ? tab[tim->j + 1] :
+		tim->tmp_2 = is_directory(tab[tim->j + 1]) && ft_strcmp(tab[tim->j + 1], "..") != 0 &&
+			ft_strcmp(tab[tim->j + 1], ".") != 0 ? tab[tim->j + 1] :
 			ft_strjoin(path, tab[tim->j + 1]);
 		lstat(tim->tmp, &(tim->s));
 		lstat(tim->tmp_2, &(tim->s_2));

@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/23 20:17:34 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/24 07:35:41 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,11 @@ int				main(int argc, char **argv)
 	opts = parsing(argc, argv);
 	files = stock_files(argc, argv, var);
 	args = stock_args(argc, argv, files);
-	//	printf(YELLOW"argc :%d\n"NORMAL, argc);
 	path = NULL;
 	if (opts->t == TRUE)
 		args = timer(args, path);
 	if (opts->r == TRUE)
 		args = do_reverse(args);
-	while (args[j])
-	{
-		printf(CYAN"args[%d] : %s\n"NORMAL, j, args[j]);
-		j++;
-	}
-	j = 0;
-	while (files[j])
-	{
-		printf(YELLOW"files[%d] : %s\n"NORMAL, j, files[j]);
-		j++;
-	}
 	j = 0;
 	if (ft_strcmp(files[0], ".") != 0)
 	{
@@ -87,7 +75,6 @@ int				main(int argc, char **argv)
 	opts->file_tab = FALSE;
 	while (args[j])
 	{
-//			printf(GREEN"\n\nargvs :%s\n\nj :%d\n"NORMAL, args[j], j);
 		i = 0;
 		path = get_path(argc, args[j]);
 		if (j >= 1)
@@ -97,20 +84,16 @@ int				main(int argc, char **argv)
 			ft_putendl(ft_strjoin(args[j], ":"));
 		if (ft_strcmp(args[j], ".") == 0)
 			opts->args_dot = TRUE;
-//		printf(GREEN"\npath :%s\n\n"NORMAL, path);
 		tab = stock_directory(path);
 		if (opts->recursive == TRUE)
 			press_r(tab, argc, path, opts);
 		if (tab != NULL && opts->recursive != TRUE)
 		{
 			insertion_sort(tab);
-		//	tab = real_sort(tab);
-		//	bubble_sort(tab);
 			do_opts(opts, tab, path);
 		}
 		j++;
 	}
 	free(var);
-//	while (42);
 	return (0);
 }

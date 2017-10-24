@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/16 00:27:11 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/23 19:06:58 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/24 07:26:01 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,6 @@ char			**stock_files(int argc, char **argv, t_var *var)
 		var->tmp[var->j++] = ".";
 	var->tmp[var->j] = NULL;
 	insertion_sort(var->tmp);
+	free(var->error_tab);
 	return (var->tmp);
 }

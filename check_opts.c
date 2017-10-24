@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:47:06 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/23 19:35:53 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/24 00:22:56 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_opts		*parsing(int argc, char **argv)
 		}
 		i++;
 	}
-	return_opts(opts);
+//	return_opts(opts);
 	if (i < argc && ft_strnequ("--", argv[i], 3))
 		i++;
 	return (opts);
