@@ -6,7 +6,7 @@
 #    By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/15 13:14:57 by cnovo-ri          #+#    #+#              #
-#    Updated: 2017/10/19 22:15:29 by cnovo-ri         ###   ########.fr        #
+#    Updated: 2017/10/25 00:58:10 by cnovo-ri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIB=./libft/libft.a
 
 OBJ=$(SRC:.c=.o)
 
-FLAGS=-Wall -Wextra -Werror
+FLAGS=-g -Wall -Wextra -Werror
 
 CC=cc
 

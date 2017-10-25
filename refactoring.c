@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/24 07:35:41 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/25 03:42:15 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,11 @@ int				main(int argc, char **argv)
 	int			i;
 	int			j;
 
-	j = 0;
 	if (!(var = (t_var *)malloc(sizeof(t_var))))
 		return (0);
 	opts = parsing(argc, argv);
 	files = stock_files(argc, argv, var);
-	args = stock_args(argc, argv, files);
+	args = stock_args(argc, argv, files, var);
 	path = NULL;
 	if (opts->t == TRUE)
 		args = timer(args, path);
@@ -94,6 +93,8 @@ int				main(int argc, char **argv)
 		}
 		j++;
 	}
+	free(opts);
 	free(var);
+	//while (42);
 	return (0);
 }

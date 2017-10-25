@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:53 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/24 02:07:44 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/25 03:40:02 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void		set_perror(char *filename)
 int			tablen(char **tab)
 {
 	int i;
-
+	
 	i = 0;
 	if (!(tab))
 		return (0);

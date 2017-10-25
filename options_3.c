@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/16 00:05:30 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/24 02:02:48 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/25 03:01:55 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char			*uid_gid(struct stat *s)
 	struct group	*pwd_gid;
 	char			*tmp;
 
+	pwd_gid = NULL;
 	pwd_gid = getgrgid(s->st_gid);
 	if (!(pwd_uid = getpwuid(s->st_uid)))
 		tmp = ft_strjoin((ft_itoa(s->st_uid)), "  ");
