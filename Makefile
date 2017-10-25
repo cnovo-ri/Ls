@@ -6,20 +6,20 @@
 #    By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/15 13:14:57 by cnovo-ri          #+#    #+#              #
-#    Updated: 2017/10/25 00:58:10 by cnovo-ri         ###   ########.fr        #
+#    Updated: 2017/10/25 05:59:54 by cnovo-ri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=ft_ls
 
 SRC=directory.c check_opts.c options.c options_2.c options_3.c options_4.c \
-	tools.c refactoring.c real_sort.c real_sort_2.c rights.c args_and_files.c
+	tools.c refactoring.c rights.c args_and_files.c
 
 LIB=./libft/libft.a
 
 OBJ=$(SRC:.c=.o)
 
-FLAGS=-g -Wall -Wextra -Werror
+FLAGS=-Wall -Wextra -Werror
 
 CC=cc
 

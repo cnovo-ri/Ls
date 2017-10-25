@@ -6,11 +6,20 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 19:41:45 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/25 03:02:21 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/25 06:25:37 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void			str_swap(char **str, char **str2)
+{
+	char	*tmp;
+
+	tmp = *str;
+	*str = *str2;
+	*str2 = tmp;
+}
 
 static void		print_l3(struct stat *s)
 {
@@ -30,9 +39,11 @@ static void		print_l2(struct stat *s, char *tab, char *path, char *ptr)
 
 	ft_putnbr(s->st_nlink);
 	ft_putchar(' ');
-	ft_putstr(ft_strjoin(uid_gid(s), " "));
+	ft_putstr(uid_gid(s));
+	ft_putchar(' ');
 	print_l3(s);
-	ft_putstr(/*(ft_strjoin("  ",*/get_date(s));
+	ft_putstr("  ");
+	ft_putstr(get_date(s));
 	ft_putchar(' ');
 	if ((ret = readlink(ft_strjoin(path, tab), ptr, 255)) != -1)
 	{
@@ -51,8 +62,8 @@ static void		print_l2(struct stat *s, char *tab, char *path, char *ptr)
 
 static void		print_l1(char **tab, char *path, t_opts *opts, struct stat *s)
 {
-	t_long	l;
-	
+	t_long		l;
+
 	if (!(l.tmp = (char **)malloc(sizeof(char *) * (tablen(tab) + 1))))
 		return ;
 	if (!(l.ptr = (char *)malloc(sizeof(char) * 255)))

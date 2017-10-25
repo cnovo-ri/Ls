@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/16 00:27:11 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/25 03:50:30 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/25 06:22:53 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,8 @@ char			*get_path(int argc, char *args)
 		tmp = ".";
 	return (tmp);
 }
-/*
-static void			free_vars(t_var *var, int argc)
-{
-	int		i;
 
-	i = 0;
-	while (i < argc + 1)
-	{
-		free(var->tmp[i]);
-		i++;
-	}
-	free(var->tmp);
-}
-*/
-static t_var		*init_vars(t_var *var, int argc)
+static t_var	*init_vars(t_var *var, int argc)
 {
 	if (!(var->tmp = (char **)malloc(sizeof(char *) * argc + 1)))
 		return (NULL);
@@ -47,10 +34,8 @@ static t_var		*init_vars(t_var *var, int argc)
 		return (NULL);
 	var->i = 0;
 	var->j = 0;
-	var->k = 0;
 	var->dir = 0;
 	var->error = 0;
-
 	return (var);
 }
 
@@ -85,21 +70,17 @@ static void		stock_files_2(int argc, char **argv, t_var *var)
 			var->tmp[var->j++] = argv[var->i];
 		if (is_directory(argv[var->i]) == TRUE)
 			var->dir = 1;
-		if (var->j > 0 || (var->j == 0 && (var->dir == 1 || var->error_tab[0] != NULL)))
+		if (var->j > 0 || (var->j == 0 && (var->dir == 1 || var->error_tab[0])))
 		{
-			if ((lstat(argv[var->i], &var->s) == -1 && ft_strcmp(argv[var->i], "./ft_ls") != 0) || (argv[var->i][0] == '-'))
-			{
-				printf("var->error_tab[0] = %s\nvar->j : %d\nvar->dir : %d\nargv[var->i][0] = %c\n", var->error_tab[0], var->j,  var->dir, argv[var->i][0]);
-				ft_putendl(BLUE"ERROR"NORMAL);
+			if ((lstat(argv[var->i], &var->s) == -1 &&
+				ft_strcmp(argv[var->i], "./ft_ls") != 0 &&
+				argv[var->i][0] != '-') || (var->dir == 1 &&
+				argv[var->i][0] == '-'))
 				var->error_tab[var->k++] = argv[var->i];
-			}
 		}
 		else if (lstat(argv[var->i], &var->s) == -1 && argv[var->i][0] != '-' &&
 				ft_strcmp(argv[var->i], "./ft_ls") != 0)
-			{
-				ft_putendl(RED"ERROR"NORMAL);
-				var->error_tab[var->k++] = argv[var->i];
-			}
+			var->error_tab[var->k++] = argv[var->i];
 		var->i++;
 	}
 }
@@ -107,6 +88,7 @@ static void		stock_files_2(int argc, char **argv, t_var *var)
 char			**stock_files(int argc, char **argv, t_var *var)
 {
 	var = init_vars(var, argc);
+	var->k = 0;
 	stock_files_2(argc, argv, var);
 	var->error_tab[var->k] = NULL;
 	insertion_sort(var->error_tab);
@@ -117,6 +99,5 @@ char			**stock_files(int argc, char **argv, t_var *var)
 		var->tmp[var->j++] = ".";
 	var->tmp[var->j] = NULL;
 	insertion_sort(var->tmp);
-//	free(var->error_tab);
 	return (var->tmp);
 }

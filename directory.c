@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:47:47 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/24 07:24:00 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/25 06:56:11 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int			dir_len(char *path)
 	len = 0;
 	if ((len_dir = opendir(path)) == NULL)
 	{
+		path = ft_strsub(path, 0, ft_strlen(path) - 1);
 		set_perror(path);
 		return (-1);
 	}

@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:47:06 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/24 00:22:56 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/25 06:16:27 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,7 @@ t_opts		*parsing(int argc, char **argv)
 		}
 		i++;
 	}
-//	return_opts(opts);
 	if (i < argc && ft_strnequ("--", argv[i], 3))
 		i++;
 	return (opts);
-}
-
-void		return_opts(t_opts *opts)
-{
-	if (opts->l == TRUE)
-		ft_putendl(RED"l");
-	if (opts->recursive == TRUE)
-		ft_putendl(BLUE"R");
-	if (opts->a == TRUE)
-		ft_putendl(GREEN"a");
-	if (opts->r == TRUE)
-		ft_putendl(YELLOW"r");
-	if (opts->t == TRUE)
-		ft_putendl(CYAN"t");
-	if (opts->m == TRUE)
-		ft_putendl(PURPLE"m");
-	if (opts->almost == TRUE)
-		ft_putendl(CYAN"A");
-	if (opts->one == TRUE)
-		ft_putendl(GREY"1");
 }
