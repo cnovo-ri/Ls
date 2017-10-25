@@ -72,6 +72,7 @@ void			press_r(char **tab, int argc, char *path, t_opts *opts)
 	int			i;
 
 	i = 0;
+	insertion_sort(tab);
 	flag = fix_flag(flag, tab, path, opts);
 	while (tab && tab[i])
 	{
