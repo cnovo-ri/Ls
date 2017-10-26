@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/16 00:27:11 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/25 06:22:53 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/26 04:44:35 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ char			**stock_args(int argc, char **argv, char **files, t_var *var)
 	while (var->i < argc && argc > 1)
 	{
 		if (argv[var->i][0] != '-' && ft_strcmp(argv[var->i], "./ft_ls") != 0 &&
-			is_directory(argv[var->i]) == TRUE)
+			(is_directory(argv[var->i]) == TRUE || (argv[var->i][0] == '/' &&
+			var->opts_l != 1)))
 			var->tmp[var->j++] = argv[var->i];
 		else if (lstat(argv[var->i], &var->s) == -1 && argv[var->i][0] != '-')
 			var->error++;
@@ -64,8 +65,8 @@ static void		stock_files_2(int argc, char **argv, t_var *var)
 {
 	while (var->i < argc && argc > 1)
 	{
-		if (argv[var->i][0] != '-' && ft_strcmp(argv[var->i], "./ft_ls") != 0
-			&& is_directory(argv[var->i]) != TRUE &&
+		if (argv[var->i][0] != '-' && ft_strcmp(argv[var->i], "./ft_ls") != 0 &&
+			is_directory(argv[var->i]) != TRUE &&
 			lstat(argv[var->i], &var->s) != -1)
 			var->tmp[var->j++] = argv[var->i];
 		if (is_directory(argv[var->i]) == TRUE)
@@ -74,8 +75,8 @@ static void		stock_files_2(int argc, char **argv, t_var *var)
 		{
 			if ((lstat(argv[var->i], &var->s) == -1 &&
 				ft_strcmp(argv[var->i], "./ft_ls") != 0 &&
-				argv[var->i][0] != '-') || (var->dir == 1 &&
-				argv[var->i][0] == '-'))
+				argv[var->i][0] != '-') || ((var->dir == 1 || var->error_tab[0]
+				|| var->j > 0) && argv[var->i][0] == '-'))
 				var->error_tab[var->k++] = argv[var->i];
 		}
 		else if (lstat(argv[var->i], &var->s) == -1 && argv[var->i][0] != '-' &&

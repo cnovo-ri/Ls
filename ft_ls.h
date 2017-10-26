@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:48:26 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/25 06:24:14 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/26 00:38:42 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct		s_var
 	char		**tmp;
 	char		**error_tab;
 	int			i;
+	int			opts_l;
 	int			j;
 	int			k;
 	int			dir;

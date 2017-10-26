@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:31 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/25 06:27:03 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/26 04:20:29 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void		main_3(char **args, char **files, t_var *var, t_opts *opts)
 		if (ft_strcmp(args[var->j], ".") == 0)
 			opts->args_dot = TRUE;
 		tab = stock_directory(var->path);
-		if (opts->recursive == TRUE)
+		if (opts->recursive == TRUE && tab != NULL)
 			press_r(tab, var->stk_argc, var->path, opts);
 		if (tab != NULL && opts->recursive != TRUE)
 		{
@@ -93,7 +93,10 @@ int				main(int argc, char **argv)
 	if (!(var = (t_var *)malloc(sizeof(t_var))))
 		return (0);
 	var->stk_argc = argc;
+	var->opts_l = 0;
 	opts = parsing(argc, argv);
+	if (opts->l == TRUE)
+		var->opts_l = 1;
 	files = stock_files(argc, argv, var);
 	args = stock_args(argc, argv, files, var);
 	main_2(args, files, var, opts);

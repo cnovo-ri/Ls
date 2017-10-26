@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:53 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/25 06:46:45 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/25 23:11:36 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,23 @@ void		insertion_sort(char **tab)
 
 void		set_perror(char *filename)
 {
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	tmp = NULL;
 	ft_putstr_fd("ls: ", 2);
-	perror(filename);
+	if (errno == EACCES)
+	{
+		i = ft_strlen(filename) - 1;
+		while (filename[i] != '/')
+			i--;
+		tmp = ft_strsub(filename, i + 1, ft_strlen(filename) - 1);
+		perror(tmp);
+		free(tmp);
+	}
+	else
+		perror(filename);
 }
 
 int			tablen(char **tab)

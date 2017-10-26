@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/16 00:06:46 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/25 07:55:34 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/26 04:09:22 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ static int		run_tab(char **tab, int i)
 static	int		fix_flag(int flag, char **tab, char *path, t_opts *opts)
 {
 	if (flag == 0)
+	{
+		insertion_sort(tab);
 		do_opts(opts, tab, path);
+	}
 	return (flag);
 }
 
@@ -72,7 +75,6 @@ void			press_r(char **tab, int argc, char *path, t_opts *opts)
 	int			i;
 
 	i = 0;
-	insertion_sort(tab);
 	flag = fix_flag(flag, tab, path, opts);
 	while (tab && tab[i])
 	{
