@@ -6,7 +6,7 @@
 /*   By: cnovo-ri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 21:49:53 by cnovo-ri          #+#    #+#             */
-/*   Updated: 2017/10/25 23:11:36 by cnovo-ri         ###   ########.fr       */
+/*   Updated: 2017/10/27 00:35:55 by cnovo-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void		set_perror(char *filename)
 	i = 0;
 	tmp = NULL;
 	ft_putstr_fd("ls: ", 2);
-	if (errno == EACCES)
+	if (errno == EACCES && filename[0] == '/')
 	{
 		i = ft_strlen(filename) - 1;
 		while (filename[i] != '/')
